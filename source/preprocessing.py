@@ -29,7 +29,7 @@ def hdf5_jet_flavor(filename):
         J_1q1g = (J1_q & J2_g) | (J1_g & J2_q)
         J_0q2g = (J1_g & J2_g)
 
-    return {'2q0g': J_2q0g, '1q1g': J_1q1g, '0q2g': J_0q2g}
+    return {'2q0g': J_2q0g, '1q1g': J_1q1g, '0q2g': J_0q2g, 'total': len(J1)}
 
 
 def hdf5_to_image(filename, grid_size=40):

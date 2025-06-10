@@ -1,16 +1,13 @@
 #!/bin/bash
 
 # Define arrays
-ratios=(0.0)
-rotations=(1)
+rotations=(1 2 4)
 models=("CNN_Light" "CNN_Baseline")
 
 # Loop over all combinations
-for ratio in "${ratios[@]}"; do
-  for rot in "${rotations[@]}"; do
-    for model in "${models[@]}"; do
-      echo "Running: CWoLa_ratio=$ratio, num_rot=$rot, model=$model"
-      python a.py CWoLa_ratio=$ratio num_rot=$rot model=$model
-    done
+for rot in "${rotations[@]}"; do
+  for model in "${models[@]}"; do
+    echo "Running: num_rot=$rot, model=$model"
+    python a.py num_rot=$rot model=$model
   done
 done
