@@ -1,0 +1,13 @@
+### 20250616-212748
+- CWoLa split by jet flavor: `2q0g`, `1q1g`, and `2g0q`.
+- No preprocessing and no data augmentation.
+- Maiximum 100 epochs, with early stopping and lr scheduler.
+- Monitored with `valid_auc` for checkpointing, early stopping, and lr scheduler.
+- Model: (`lr`, `batch_size_per_step`, `batch_accumulated`) => (`test_accuracy`, `test_auc`, `early_stopped_epochs`)
+  - CNN_Baseline: (1e-5, 64, 8) => (0.630, 0.674, 47)  # smooth enough
+  - CNN_Light: (5e-5, 64, 8) => (0.615, 0.654, 66)  # more zig-zag than baseline
+  - ParT_Baseline: (1e-5, 64, 8) => (0.685, 0.752, 94)  # try slightly higher lr
+  - ParT_Medium: (1e-5, 64, 8) => (0.685, 0.748, 100)  # try higher lr
+  - ParT_Light:  (1e-4, 64, 8) => (0.686, 0.754, 90)  # try higher lr
+  - ParT_SuperLight: (1e-4, 64, 8) => (0.696, 0.767, 83)  # try higher lr
+  - ParT_ExtremeLight: (5e-4, 64, 8) => (0.682, 0.746, 100)  # try higher lr

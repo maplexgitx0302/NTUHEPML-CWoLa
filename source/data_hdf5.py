@@ -4,13 +4,11 @@ import os
 import numpy as np
 import torch
 
-root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-def hdf5_jet_flavor(filename):
+def hdf5_jet_flavor(file_path, including_unknown=True):
     """Read *.h5 files and return the jet flavor."""
 
-    with h5py.File(os.path.join(root_dir, 'dataset', filename), 'r') as f:
+    with h5py.File(file_path, 'r') as f:
         # 1 : d, 2 : u, 3 : s, 4 : c, 5 : b, 21 : g
 
         J1 = np.array(f['J1']['flavor'][:])
@@ -19,10 +17,10 @@ def hdf5_jet_flavor(filename):
         J2 = np.array(f['J2']['flavor'][:])
         J2 = torch.from_numpy(J2).long()
 
-        J1_q = (J1 != 0) & (J1 != 21)  # Non-gluon and non-unknown
-        J1_g = (J1 == 21)  # Gluon
+        J1_q = (J1 != 21) if including_unknown else ((J1 != 21) & (J1 != 0))
+        J1_g = (J1 == 21)
 
-        J2_q = (J2 != 0) & (J2 != 21)
+        J2_q = (J2 != 21) if including_unknown else ((J2 != 21) & (J2 != 0))
         J2_g = (J2 == 21)
 
         J_2q0g = (J1_q & J2_q)
@@ -32,10 +30,10 @@ def hdf5_jet_flavor(filename):
     return {'2q0g': J_2q0g, '1q1g': J_1q1g, '0q2g': J_0q2g, 'total': len(J1)}
 
 
-def hdf5_to_image(filename, grid_size=40):
+def hdf5_to_image(file_path, grid_size=40):
     """Read *.h5 files and turn it into images."""
 
-    with h5py.File(os.path.join(root_dir, 'dataset', filename), 'r') as f:
+    with h5py.File(file_path, 'r') as f:
 
         channels = ['PHOTON', 'TOWER', 'TRACK']
         images = []
@@ -84,10 +82,10 @@ def hdf5_to_image(filename, grid_size=40):
     return torch.from_numpy(images).float()
 
 
-def hdf5_to_seq(filename):
+def hdf5_to_seq(file_path):
     """Read *.h5 files and turn it into sequences."""
 
-    with h5py.File(os.path.join(root_dir, 'dataset', filename), 'r') as f:
+    with h5py.File(file_path, 'r') as f:
 
         channels = ['PHOTON', 'TOWER', 'TRACK']
         preprocessed_features = []

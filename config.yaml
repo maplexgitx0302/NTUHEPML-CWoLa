@@ -1,0 +1,43 @@
+training:
+  fit: true
+  test: true
+  rnd_seed: 42
+  num_epochs: 100
+  device: 'gpu'
+  monitor: 'valid_auc'    # metric to monitor for checkpointing
+
+  early_stopping:
+    mode: 'max'           # mode for the early stopping
+    monitor: 'valid_auc'  # metric to monitor for early stopping
+    min_delta: 0.0001     # minimum change to qualify as an improvement for early stopping
+    patience: 20          # number of epochs with no improvement after which training will be stopped
+
+  lr_scheduler:
+    monitor: 'valid_auc'  # metric to monitor for learning rate scheduling
+    mode: 'max'           # mode for the scheduler
+    factor: 0.5           # factor by which the learning rate will be reduced
+    patience: 5           # number of epochs with no improvement after which the learning rate will be reduced
+    threshold: 0.0001     # threshold for measuring the new optimum, used in ReduceLROnPlateau
+    interval: 'epoch'     # interval for the scheduler, can be 'epoch' or 'step'
+    frequency: 1          # frequency of applying the scheduler, can be 1 or more
+
+dataset:
+  preprocessing: []
+  augmentation: []
+  CWoLa_mode: 'jet_flavor'
+  
+  train_fraction: 0.8        # fraction of training / (training + validation)
+  num_test: 10000            # number of test samples
+  
+  luminosity: 3000           # luminosity in fb^-1
+  branching_ratio: 0.00227   # branching ratio for H -> aa
+  
+  signal:
+    path: 'dataset/VBF.h5'
+    cross_section: 4278.0    # 4.278 * 1000, precomputed
+    preselection_rate: 0.41  # preselection rate for VBF
+  
+  background:
+    path: 'dataset/GGF.h5'
+    cross_section: 54670.0   # 54.67 * 1000, precomputed
+    preselection_rate: 0.09  # preselection rate for GGF

@@ -329,3 +329,125 @@ class ParticleTransformer(nn.Module):
         class_token = self.final_layer(class_token)
 
         return class_token
+
+
+class ParT_Baseline(ParticleTransformer):
+    def __init__(self):
+
+        hyperparameters = {
+            "ParEmbed": {
+                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "embed_dim": [128, 512, 128]
+            },
+            "ParAtteBlock": {
+                "num_heads": 8,
+                "fc_dim": 512,
+                "dropout": 0.1
+            },
+            "ClassAtteBlock": {
+                "num_heads": 8,
+                "fc_dim": 512,
+                "dropout": 0.0
+            },
+            "num_ParAtteBlock": 8,
+            "num_ClassAtteBlock": 2
+        }
+
+        super().__init__(score_dim=1, parameters=hyperparameters)
+
+
+class ParT_Medium(ParticleTransformer):
+    def __init__(self):
+        hyperparameters = {
+            "ParEmbed": {
+                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "embed_dim": [64, 128, 64]
+            },
+            "ParAtteBlock": {
+                "num_heads": 4,
+                "fc_dim": 128,
+                "dropout": 0.1
+            },
+            "ClassAtteBlock": {
+                "num_heads": 4,
+                "fc_dim": 128,
+                "dropout": 0.0
+            },
+            "num_ParAtteBlock": 6,
+            "num_ClassAtteBlock": 1
+        }
+
+        super().__init__(score_dim=1, parameters=hyperparameters)
+
+
+class ParT_Light(ParticleTransformer):
+    def __init__(self):
+
+        hyperparameters = {
+            "ParEmbed": {
+                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "embed_dim": [64, 64, 64]
+            },
+            "ParAtteBlock": {
+                "num_heads": 4,
+                "fc_dim": 64,
+                "dropout": 0.1
+            },
+            "ClassAtteBlock": {
+                "num_heads": 4,
+                "fc_dim": 64,
+                "dropout": 0.0
+            },
+            "num_ParAtteBlock": 4,
+            "num_ClassAtteBlock": 1
+        }
+
+        super().__init__(score_dim=1, parameters=hyperparameters)
+
+
+class ParT_SuperLight(ParticleTransformer):
+    def __init__(self):
+        hyperparameters = {
+            "ParEmbed": {
+                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "embed_dim": [32, 64, 32]
+            },
+            "ParAtteBlock": {
+                "num_heads": 2,
+                "fc_dim": 64,
+                "dropout": 0.2
+            },
+            "ClassAtteBlock": {
+                "num_heads": 2,
+                "fc_dim": 64,
+                "dropout": 0.2
+            },
+            "num_ParAtteBlock": 2,
+            "num_ClassAtteBlock": 1
+        }
+
+        super().__init__(score_dim=1, parameters=hyperparameters)
+
+
+class ParT_ExtremeLight(ParticleTransformer):
+    def __init__(self):
+        hyperparameters = {
+            "ParEmbed": {
+                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "embed_dim": [16, 64, 16]
+            },
+            "ParAtteBlock": {
+                "num_heads": 1,
+                "fc_dim": 16,
+                "dropout": 0.1
+            },
+            "ClassAtteBlock": {
+                "num_heads": 1,
+                "fc_dim": 16,
+                "dropout": 0.1
+            },
+            "num_ParAtteBlock": 2,
+            "num_ClassAtteBlock": 1
+        }
+
+        super().__init__(score_dim=1, parameters=hyperparameters)

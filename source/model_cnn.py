@@ -8,7 +8,7 @@ class CNN_Baseline(nn.Module):
 
         super().__init__()
 
-        self.num_rot = num_rot
+        self.num_rot = num_rot  # rotation-equivariance, 1 means no rotation
 
         self.cnn = nn.Sequential(
             nn.Conv2d(in_channels=3, out_channels=64, kernel_size=5, padding='same'),  # 40 * 40
@@ -85,4 +85,27 @@ class CNN_Light(CNN_Baseline):
             nn.Linear(1600, 32),
             nn.ReLU(),
             nn.Linear(32, 1)
+        )
+
+
+class CNN_ExtremeLight(CNN_Baseline):
+    def __init__(self, num_rot=1):
+        """Minimal CNN for (3, 40, 40) input with low capacity."""
+        super().__init__(num_rot)
+
+        self.cnn = nn.Sequential(
+            nn.Conv2d(3, 4, kernel_size=3, padding=1),   # (3, 40, 40) → (4, 40, 40)
+            nn.ReLU(),
+            nn.MaxPool2d(2),                             # → (4, 20, 20)
+
+            nn.Conv2d(4, 8, kernel_size=3, padding=1),   # → (8, 20, 20)
+            nn.ReLU(),
+            nn.MaxPool2d(2),                             # → (8, 10, 10)
+        )
+
+        self.fnn = nn.Sequential(
+            nn.Flatten(),                                # → 8 * 10 * 10 = 800
+            nn.Linear(800, 16),
+            nn.ReLU(),
+            nn.Linear(16, 1)
         )
