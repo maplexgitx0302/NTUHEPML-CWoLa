@@ -1,6 +1,14 @@
-lightning_logs/
-training_logs/
+# system files
 __pycache__/
+
+# dataset
 dataset/
-a.py
+
+# training result
+result-*
+training_logs/
+lightning_logs/
+
+# test files
 _*
+a.py

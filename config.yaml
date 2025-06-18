@@ -1,7 +1,9 @@
+tags: ['cop', 'jet-flavor']
+
 training:
   fit: true
   test: true
-  rnd_seed: 42
+  rnd_seed: 43
   num_epochs: 100
   device: 'gpu'
   monitor: 'valid_auc'    # metric to monitor for checkpointing
@@ -22,8 +24,8 @@ training:
     frequency: 1          # frequency of applying the scheduler, can be 1 or more
 
 dataset:
-  preprocessing: []
-  augmentation: []
+  preprocessings: ['cop']
+  augmentations: []
   CWoLa_mode: 'jet_flavor'
   
   train_fraction: 0.8        # fraction of training / (training + validation)
