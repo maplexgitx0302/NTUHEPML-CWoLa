@@ -4,7 +4,7 @@ import torch
 def split_by_pure_random(
     sig_tensor: torch.Tensor, bkg_tensor: torch.Tensor,
     train_fraction: float = 0.8, num_test: int = 10000
-) -> tuple[torch.Tensor]:
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
 
     print(f"{'=' * 20} Data Size Information {'=' * 20}")
     print(f'Signal shape: {sig_tensor.shape}, Background shape: {bkg_tensor.shape}')

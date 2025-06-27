@@ -50,7 +50,7 @@ class MCSimData:
             pt = self.data[channel]['pt']
             phi = self.data[channel]['phi']
             phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
-            phi = phi - pt * phi / (np.sum(pt, axis=-1, keepdims=True) + eps)
+            phi = phi - np.sum(pt * phi, axis=-1, keepdims=True) / (np.sum(pt, axis=-1, keepdims=True) + eps)
             phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
             self.data[channel]['phi'] = phi
 

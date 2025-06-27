@@ -1,4 +1,9 @@
-tags: ['cop', 'jet-flavor']
+tags: ['cop', 'jet-flavor', 'aug_rand_10']
+
+preprocessings: []
+augmentations:
+  functions: ['phi_rand']
+  rotations: 10
 
 training:
   fit: true
@@ -24,8 +29,6 @@ training:
     frequency: 1          # frequency of applying the scheduler, can be 1 or more
 
 dataset:
-  preprocessings: ['cop']
-  augmentations: []
   CWoLa_mode: 'jet_flavor'
   
   train_fraction: 0.8        # fraction of training / (training + validation)
