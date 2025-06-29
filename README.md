@@ -20,19 +20,16 @@ This project applies deep learning to distinguish between VBF and GGF Higgs prod
 
 ## Usage
 
-#### Data Preprocessing
+#### Data Preprocessing & Augmentation
 
 The data preprocessings can be implemented by the following steps:
 
-1. Check the methods provided in the class `MCSimData`.
-   `./source/data_preprocess.py` &rarr; `MCSimData`
+1. Check the supported methods:
+   - **data preprocessing:** Check the methods provided in the class `./source/data_preprocess.py` &rarr; `MCSimData`
+   - **data augmentation:** Supported functions can be found in `./source/data_augment.py`.
 2. Give abbreviations for the preprocessing methods in the class `LitDataModule`.
     `./main.ipynb` &rarr; `LitDataModule` &rarr; `__init__`
 3. Determine which preprocessings to be used in `config.yaml` by their abbreviations.
    `./config.yaml` &rarr; `dataset` &rarr; `preprocessings`
 4. To distinguish each training result, we recommend to add tags for each training in `config.yaml`.
    `./config.yaml` &rarr; `tags`
-
-#### Data Augmentation
-
-*To be continued.*

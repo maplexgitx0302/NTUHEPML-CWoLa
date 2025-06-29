@@ -37,7 +37,7 @@ def aug_phi_shift(data: torch.Tensor, format: str, rotations: int, mode: str) ->
             elif mode == 'random':
                 shift = 2 * np.pi * np.random.rand()
             phi_column = 2  # See `to_sequence` function in data_preprocess.py
-            new_data[:, phi_column] = (new_data[:, phi_column] + shift) % (2 * np.pi)
+            new_data[..., phi_column] = (new_data[..., phi_column] + shift + np.pi) % (2 * np.pi) - np.pi
 
         else:
             raise ValueError(f"Unsupported format: {format}")
