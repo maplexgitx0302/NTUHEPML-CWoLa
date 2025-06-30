@@ -5,16 +5,18 @@ import torch
 
 
 class MCSimData:
-    def __init__(self, path: str, including_unknown=True):
+    def __init__(self, path: str, including_unknown=True, include_decay=True):
         """Class for the Monte Carlo simulation data.
 
             Args:
                 path (str): Path to the HDF5 file.
                 including_unknown (bool): Whether to include unknown jet flavors (default: True).
+                include_decay (bool): Whether to include decay products (default: True).
         """
 
         # Read the HDF5 file and store it in the class
         with h5py.File(path, 'r') as hdf5_file:
+            print(f'Loading data from {path} ...')
 
             # Extract the jet flavor information
             J1 = torch.from_numpy(np.array(hdf5_file['J1']['flavor'][:])).long()
@@ -32,24 +34,59 @@ class MCSimData:
 
             self.jet_flavor = {'2q0g': J_2q0g, '1q1g': J_1q1g, '0q2g': J_0q2g, 'total': len(J1)}
 
-            # Extract the particle flow information for each channel
-            self.channels = ['PHOTON', 'TOWER', 'TRACK']
+            # Decay chanel
+            if 'diphoton' in path:
+                decay_channel = 'PHOTON'
+            elif 'zz4l' in path:
+                decay_channel = 'LEPTON'
+
+            # Non-decay channels
+            detector_channels = ['TOWER', 'TRACK']
+            self.channels = detector_channels + include_decay * [decay_channel]
+
+            # Save the particle flow information for each channel in nested dictionaries
             self.data: dict[dict[str, np.ndarray]] = {}
-            for channel in self.channels:
-                self.data[channel] = {
-                    'pt': hdf5_file[channel]['pt'][:],
-                    'eta': hdf5_file[channel]['eta'][:],
-                    'phi': hdf5_file[channel]['phi'][:],
-                }
-                if 'mask' in hdf5_file[channel]:
-                    self.data[channel]['mask'] = hdf5_file[channel]['mask'][:]
+
+            # Decay channel particle flow information
+            decay_pt = hdf5_file[decay_channel]['pt'][:]
+            decay_eta = hdf5_file[decay_channel]['eta'][:]
+            decay_phi = hdf5_file[decay_channel]['phi'][:]
+            decay_phi = np.mod(decay_phi + np.pi, 2 * np.pi) - np.pi
+            self.data[decay_channel] = {'pt': decay_pt, 'eta': decay_eta, 'phi': decay_phi}
+
+            # Non-decay channels particle flow information
+            for channel in detector_channels:
+                pt = hdf5_file[channel]['pt'][:]
+                eta = hdf5_file[channel]['eta'][:]
+                phi = hdf5_file[channel]['phi'][:]
+                phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
+                self.data[channel] = {'pt': pt, 'eta': eta, 'phi': phi}
+
+                # Assume that the mask is available for all channels except the decay channel
+                mask = hdf5_file[channel]['mask'][:]
+
+                if not include_decay:
+                    # Compute the squared differences in pt, eta, and phi
+                    eta_diff = (eta[:, :, np.newaxis] - decay_eta[:, np.newaxis, :]) ** 2
+                    phi_diff = (phi[:, :, np.newaxis] - decay_phi[:, np.newaxis, :]) ** 2
+                    
+                    # Sum the differences and check if they are below the threshold
+                    diff = eta_diff + phi_diff  # It turns out that considering only dR is better, < 1% noise
+                    non_decay = np.sum(diff == 0, axis=-1) == 0
+                    num_decay_match = np.sum(non_decay, axis=-1) == (pt.shape[-1] - decay_pt.shape[-1])
+                    purity = np.sum(num_decay_match) / num_decay_match.shape[0]
+                    print(f' - Channel {channel} has purity {100 * purity:.4f}%')
+
+                    # Exclude decay products by modifying the mask
+                    mask = mask & non_decay
+                
+                self.data[channel]['mask'] = mask
 
     def preprocess_center_of_phi(self, eps=1e-8):
         """Shift phi to the center of pt frame."""
         for channel in self.channels:
             pt = self.data[channel]['pt']
             phi = self.data[channel]['phi']
-            phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
             phi = phi - np.sum(pt * phi, axis=-1, keepdims=True) / (np.sum(pt, axis=-1, keepdims=True) + eps)
             phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
             self.data[channel]['phi'] = phi

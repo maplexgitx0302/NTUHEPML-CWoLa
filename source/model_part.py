@@ -332,11 +332,11 @@ class ParticleTransformer(nn.Module):
 
 
 class ParT_Baseline(ParticleTransformer):
-    def __init__(self):
+    def __init__(self, num_channels: int = 3):
 
         hyperparameters = {
             "ParEmbed": {
-                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
                 "embed_dim": [128, 512, 128]
             },
             "ParAtteBlock": {
@@ -357,10 +357,10 @@ class ParT_Baseline(ParticleTransformer):
 
 
 class ParT_Medium(ParticleTransformer):
-    def __init__(self):
+    def __init__(self, num_channels: int = 3):
         hyperparameters = {
             "ParEmbed": {
-                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
                 "embed_dim": [64, 128, 64]
             },
             "ParAtteBlock": {
@@ -381,11 +381,11 @@ class ParT_Medium(ParticleTransformer):
 
 
 class ParT_Light(ParticleTransformer):
-    def __init__(self):
+    def __init__(self, num_channels: int = 3):
 
         hyperparameters = {
             "ParEmbed": {
-                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
                 "embed_dim": [64, 64, 64]
             },
             "ParAtteBlock": {
@@ -406,10 +406,10 @@ class ParT_Light(ParticleTransformer):
 
 
 class ParT_SuperLight(ParticleTransformer):
-    def __init__(self):
+    def __init__(self, num_channels: int = 3):
         hyperparameters = {
             "ParEmbed": {
-                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
                 "embed_dim": [32, 64, 32]
             },
             "ParAtteBlock": {
@@ -430,10 +430,10 @@ class ParT_SuperLight(ParticleTransformer):
 
 
 class ParT_ExtremeLight(ParticleTransformer):
-    def __init__(self):
+    def __init__(self, num_channels: int = 3):
         hyperparameters = {
             "ParEmbed": {
-                "input_dim": 3 + 3,  # (pt, eta, phi) + one-hot_encoding
+                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
                 "embed_dim": [16, 64, 16]
             },
             "ParAtteBlock": {

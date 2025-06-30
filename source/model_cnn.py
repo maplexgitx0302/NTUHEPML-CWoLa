@@ -3,7 +3,7 @@ import torch.nn as nn
 
 
 class CNN_Baseline(nn.Module):
-    def __init__(self, num_rot=1):
+    def __init__(self, num_rot=1, num_channels=3):
         """Assuming input images are of size (3, 40, 40)."""
 
         super().__init__()
@@ -11,7 +11,7 @@ class CNN_Baseline(nn.Module):
         self.num_rot = num_rot  # rotation-equivariance, 1 means no rotation
 
         self.cnn = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=5, padding='same'),  # 40 * 40
+            nn.Conv2d(in_channels=num_channels, out_channels=64, kernel_size=5, padding='same'),  # 40 * 40
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2),  # 20 * 20
@@ -65,13 +65,13 @@ class CNN_Baseline(nn.Module):
 
 
 class CNN_Light(CNN_Baseline):
-    def __init__(self, num_rot=1):
+    def __init__(self, num_rot=1, num_channels=3):
         """Assuming input images are of size (3, 40, 40)."""
 
         super().__init__(num_rot)
 
         self.cnn = nn.Sequential(
-            nn.Conv2d(3, 8, kernel_size=3, padding=1),   # (3, 40, 40) → (8, 40, 40)
+            nn.Conv2d(num_channels, 8, kernel_size=3, padding=1),   # (3, 40, 40) → (8, 40, 40)
             nn.ReLU(),
             nn.MaxPool2d(2),                             # → (8, 20, 20)
 
@@ -89,12 +89,12 @@ class CNN_Light(CNN_Baseline):
 
 
 class CNN_ExtremeLight(CNN_Baseline):
-    def __init__(self, num_rot=1):
+    def __init__(self, num_rot=1, num_channels=3):
         """Minimal CNN for (3, 40, 40) input with low capacity."""
         super().__init__(num_rot)
 
         self.cnn = nn.Sequential(
-            nn.Conv2d(3, 4, kernel_size=3, padding=1),   # (3, 40, 40) → (4, 40, 40)
+            nn.Conv2d(num_channels, 4, kernel_size=3, padding=1),   # (3, 40, 40) → (4, 40, 40)
             nn.ReLU(),
             nn.MaxPool2d(2),                             # → (4, 20, 20)
 

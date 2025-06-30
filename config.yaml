@@ -1,14 +1,14 @@
-tags: ['cop', 'jet-flavor', 'aug_rand_5']
+tags: ['ex_decay', 'jet-flavor']
 
 preprocessings: []
 augmentations:
-  functions: ['phi_rand']
-  rotations: 5
+  functions: []
+  rotations: 0
 
 training:
   fit: true
   test: true
-  rnd_seed: 43
+  rnd_seed: 42
   num_epochs: 100
   device: 'gpu'
   monitor: 'valid_auc'    # metric to monitor for checkpointing
@@ -30,6 +30,8 @@ training:
 
 dataset:
   CWoLa_mode: 'jet_flavor'
+  include_decay: false       # whether to include decay channels in the dataset
+  num_channels: 2            # number of channels, ex: ['PHOTON', 'TOWER', 'TRACK']
   
   train_fraction: 0.8        # fraction of training / (training + validation)
   num_test: 10000            # number of test samples
@@ -38,11 +40,11 @@ dataset:
   branching_ratio: 0.00227   # branching ratio for H -> aa
   
   signal:
-    path: 'dataset/VBF.h5'
+    path: 'dataset/VBF_diphoton.h5'
     cross_section: 4278.0    # 4.278 * 1000, precomputed
     preselection_rate: 0.41  # preselection rate for VBF
   
   background:
-    path: 'dataset/GGF.h5'
+    path: 'dataset/GGF_diphoton.h5'
     cross_section: 54670.0   # 54.67 * 1000, precomputed
     preselection_rate: 0.09  # preselection rate for GGF
