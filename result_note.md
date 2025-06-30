@@ -57,3 +57,39 @@ This markdown file records the training result logs. The symbols and abbreviatio
 ### Data Preprocessing with `cop` and Augmentation with $\phi$-rotations
 - Same settings as 20250627-005917, but with augmentation.
 - Test **uniform** or **random** augmentation for training data.
+- Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.633, 0.686, 49) # (20250627-005917) no_aug     
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.649, 0.703, 34) # (20250629-140436) aug_uni_5  
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.649, 0.709, 28) # (20250630-003624) aug_uni_10 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.633, 0.693, 34) # (20250629-210815) aug_rand_5 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.643, 0.699, 30) # (20250629-025748) aug_rand_10
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.618, 0.661, 33) # (20250627-005917) no_aug     
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.675, 0.740, 31) # (20250629-140436) aug_uni_5  
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.683, 0.755, 28) # (20250630-003624) aug_uni_10 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.667, 0.732, 32) # (20250629-210815) aug_rand_5 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.674, 0.731, 30) # (20250629-025748) aug_rand_10
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, 0.777, 76) # (20250627-005917) no_aug     
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.688, 0.775, 47) # (20250629-140436) aug_uni_5  
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.692, 0.759, 36) # (20250630-003624) aug_uni_10 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.704, 0.776, 43) # (20250629-210815) aug_rand_5 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.709, 0.790, 28) # (20250629-025748) aug_rand_10
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.692, 0.771, 88) # (20250627-005917) no_aug     
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.670, 0.744, 52) # (20250629-140436) aug_uni_5  
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.703, 0.772, 33) # (20250630-003624) aug_uni_10 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.695, 0.763, 46) # (20250629-210815) aug_rand_5 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.673, 0.742, 36) # (20250629-025748) aug_rand_10
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.677, 0.754, 62) # (20250627-005917) no_aug     
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.695, 0.759, 31) # (20250629-140436) aug_uni_5  
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.688, 0.752, 28) # (20250630-003624) aug_uni_10 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.700, 0.764, 30) # (20250629-210815) aug_rand_5 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.694, 0.763, 29) # (20250629-025748) aug_rand_10
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.694, 0.765, 68) # (20250627-005917) no_aug     
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.705, 0.762, 39) # (20250629-140436) aug_uni_5  
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.683, 0.750, 33) # (20250630-003624) aug_uni_10 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.691, 0.755, 38) # (20250629-210815) aug_rand_5 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.662, 0.735, 37) # (20250629-025748) aug_rand_10
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.678, 0.746, 100) # (20250627-005917) no_aug     
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.690, 0.743, 58) # (20250629-140436) aug_uni_5  
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.693, 0.764, 48) # (20250630-003624) aug_uni_10 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.688, 0.749, 78) # (20250629-210815) aug_rand_5 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.689, 0.749, 43) # (20250629-025748) aug_rand_10

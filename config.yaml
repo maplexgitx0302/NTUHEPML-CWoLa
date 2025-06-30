@@ -1,9 +1,9 @@
-tags: ['cop', 'jet-flavor', 'aug_rand_10']
+tags: ['cop', 'jet-flavor', 'aug_rand_5']
 
 preprocessings: []
 augmentations:
   functions: ['phi_rand']
-  rotations: 10
+  rotations: 5
 
 training:
   fit: true
