@@ -1,4 +1,4 @@
-tags: ['ex_decay', 'jet-flavor']
+tags: ['ex-decay', 'jet-flavor']
 
 preprocessings: []
 augmentations:
@@ -29,7 +29,7 @@ training:
     frequency: 1          # frequency of applying the scheduler, can be 1 or more
 
 dataset:
-  CWoLa_mode: 'jet_flavor'
+  CWoLa_mode: 'pure_random'
   include_decay: false       # whether to include decay channels in the dataset
   num_channels: 2            # number of channels, ex: ['PHOTON', 'TOWER', 'TRACK']
   

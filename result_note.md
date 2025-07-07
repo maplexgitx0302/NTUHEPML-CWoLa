@@ -25,7 +25,7 @@ This markdown file records the training result logs. The symbols and abbreviatio
   - ParT_Medium: (lr1e-05, b64x8) $\Rightarrow$ (0.685, 0.748, 100) # (20250616-212748) lr-baseline
   - ParT_Medium: (lr5e-05, b64x8) $\Rightarrow$ (0.683, 0.759, 77) # (20250617-092802) tuned lr
   - ParT_Light: (lr1e-04, b64x8) $\Rightarrow$ (0.686, 0.754, 90) # (20250616-212748) lr-baseline
-  - ParT_Light: (lr1e-03, b64x8) $\Rightarrow$ (0.698, 0.768, 55) # (20250617-092802) tuned lr
+  - ParT_Light: (lr1e-03, b64x8) $\Rightarrow$ (0.698, **0.768**, 55) # (20250617-092802) tuned lr
   - ParT_SuperLight: (lr1e-04, b64x8) $\Rightarrow$ (0.696, 0.767, 83) # (20250616-212748) lr-baseline
   - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.684, 0.754, 79) # (20250617-092802) tuned lr
   - ParT_ExtremeLight: (lr5e-04, b64x8) $\Rightarrow$ (0.682, 0.746, 100) # (20250616-212748) lr-baseline
@@ -43,7 +43,7 @@ This markdown file records the training result logs. The symbols and abbreviatio
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.618, 0.661, 29) # original
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.618, 0.661, 33) # cop     
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.692, 0.755, 84) # original
-  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, 0.777, 76) # cop     
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, **0.777**, 76) # cop     
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.682, 0.753, 86) # original
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.692, 0.771, 88) # cop     
   - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.689, 0.754, 68) # original
@@ -60,37 +60,37 @@ This markdown file records the training result logs. The symbols and abbreviatio
 - Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.633, 0.686, 49) # (20250627-005917) no_aug     
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.649, 0.703, 34) # (20250629-140436) aug_uni_5  
-  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.649, 0.709, 28) # (20250630-003624) aug_uni_10 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.649, **0.709**, 28) # (20250630-003624) aug_uni_10 
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.633, 0.693, 34) # (20250629-210815) aug_rand_5 
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.643, 0.699, 30) # (20250629-025748) aug_rand_10
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.618, 0.661, 33) # (20250627-005917) no_aug     
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.675, 0.740, 31) # (20250629-140436) aug_uni_5  
-  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.683, 0.755, 28) # (20250630-003624) aug_uni_10 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.683, **0.755**, 28) # (20250630-003624) aug_uni_10 
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.667, 0.732, 32) # (20250629-210815) aug_rand_5 
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.674, 0.731, 30) # (20250629-025748) aug_rand_10
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, 0.777, 76) # (20250627-005917) no_aug     
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.688, 0.775, 47) # (20250629-140436) aug_uni_5  
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.692, 0.759, 36) # (20250630-003624) aug_uni_10 
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.704, 0.776, 43) # (20250629-210815) aug_rand_5 
-  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.709, 0.790, 28) # (20250629-025748) aug_rand_10
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.709, **0.790**, 28) # (20250629-025748) aug_rand_10
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.692, 0.771, 88) # (20250627-005917) no_aug     
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.670, 0.744, 52) # (20250629-140436) aug_uni_5  
-  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.703, 0.772, 33) # (20250630-003624) aug_uni_10 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.703, **0.772**, 33) # (20250630-003624) aug_uni_10 
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.695, 0.763, 46) # (20250629-210815) aug_rand_5 
   - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.673, 0.742, 36) # (20250629-025748) aug_rand_10
   - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.677, 0.754, 62) # (20250627-005917) no_aug     
   - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.695, 0.759, 31) # (20250629-140436) aug_uni_5  
   - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.688, 0.752, 28) # (20250630-003624) aug_uni_10 
-  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.700, 0.764, 30) # (20250629-210815) aug_rand_5 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.700, **0.764**, 30) # (20250629-210815) aug_rand_5 
   - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.694, 0.763, 29) # (20250629-025748) aug_rand_10
-  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.694, 0.765, 68) # (20250627-005917) no_aug     
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.694, **0.765**, 68) # (20250627-005917) no_aug     
   - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.705, 0.762, 39) # (20250629-140436) aug_uni_5  
   - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.683, 0.750, 33) # (20250630-003624) aug_uni_10 
   - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.691, 0.755, 38) # (20250629-210815) aug_rand_5 
   - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.662, 0.735, 37) # (20250629-025748) aug_rand_10
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.678, 0.746, 100) # (20250627-005917) no_aug     
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.690, 0.743, 58) # (20250629-140436) aug_uni_5  
-  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.693, 0.764, 48) # (20250630-003624) aug_uni_10 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.693, **0.764**, 48) # (20250630-003624) aug_uni_10 
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.688, 0.749, 78) # (20250629-210815) aug_rand_5 
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.689, 0.749, 43) # (20250629-025748) aug_rand_10
 
@@ -117,3 +117,85 @@ This markdown file records the training result logs. The symbols and abbreviatio
   - ParT_ExtremeLight: (lr5e-04, b64x8) $\Rightarrow$ (0.682, 0.746, 100) # (20250616-212748) in_decay
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.685, 0.748, 100) # (20250617-092802) in_decay
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.697, 0.762, 100) # (20250630-191524) ex_decay
+
+### VBF/GGF without di-photon information + Augmentation & Preprocessing
+- Same settings as above, but test $\phi$-augmentation and `cop`-preprocessing.
+- Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.673, 0.729, 47) # no_aug     
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.679, 0.743, 29) # aug_uni_5  
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.688, 0.749, 26) # aug_uni_10 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.686, **0.751**, 27) # aug_rand_5 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.674, 0.740, 25) # aug_rand_10
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.658, 0.719, 43) # cop-no_aug     
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.676, 0.730, 28) # cop-aug_uni_5  
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.674, 0.734, 27) # cop-aug_uni_10 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.653, 0.702, 29) # cop-aug_rand_5 
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.674, 0.728, 25) # cop-aug_rand_10
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.649, 0.696, 28) # no_aug     
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.680, 0.743, 32) # aug_uni_5  
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.678, 0.742, 32) # aug_uni_10 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.678, 0.744, 29) # aug_rand_5 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.682, **0.748**, 26) # aug_rand_10
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.657, 0.722, 32) # cop-no_aug     
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.675, 0.747, 28) # cop-aug_uni_5  
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.677, 0.737, 30) # cop-aug_uni_10 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.637, 0.689, 31) # cop-aug_rand_5 
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.670, 0.731, 28) # cop-aug_rand_10
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.721, 0.789, 66) # no_aug     
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.716, 0.783, 36) # aug_uni_5  
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, 0.779, 30) # aug_uni_10 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, 0.786, 31) # aug_rand_5 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.689, 0.764, 29) # aug_rand_10
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.723, **0.796**, 65) # cop-no_aug     
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.711, 0.777, 33) # cop-aug_uni_5  
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.716, 0.784, 30) # cop-aug_uni_10 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.645, 0.721, 41) # cop-aug_rand_5 
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.643, 0.753, 30) # cop-aug_rand_10
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.698, 0.775, 78) # no_aug     
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.709, 0.777, 40) # aug_uni_5  
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.715, **0.785**, 33) # aug_uni_10 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.704, 0.783, 41) # aug_rand_5 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.702, 0.768, 34) # aug_rand_10
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.707, 0.779, 79) # cop-no_aug     
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.692, 0.774, 37) # cop-aug_uni_5  
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.679, 0.754, 35) # cop-aug_uni_10 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.629, 0.696, 48) # cop-aug_rand_5 
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.710, 0.775, 36) # cop-aug_rand_10
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.721, 0.789, 56) # no_aug     
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.695, 0.778, 34) # aug_uni_5  
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.705, 0.778, 25) # aug_uni_10 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.673, 0.786, 33) # aug_rand_5 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.692, 0.781, 25) # aug_rand_10
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.725, **0.790**, 60) # cop-no_aug     
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.691, 0.748, 37) # cop-aug_uni_5  
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.694, 0.760, 25) # cop-aug_uni_10 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.714, 0.777, 34) # cop-aug_rand_5 
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.638, 0.717, 34) # cop-aug_rand_10
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.683, 0.765, 100) # no_aug     
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.686, 0.760, 35) # aug_uni_5  
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.680, 0.743, 30) # aug_uni_10 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.683, 0.746, 41) # aug_rand_5 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.677, 0.762, 26) # aug_rand_10
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.704, 0.773, 75) # cop-no_aug     
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.696, **0.775**, 34) # cop-aug_uni_5  
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.689, 0.752, 35) # cop-aug_uni_10 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.664, 0.722, 55) # cop-aug_rand_5 
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.669, 0.747, 40) # cop-aug_rand_10
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.681, 0.749, 100) # no_aug     
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.687, 0.752, 47) # aug_uni_5  
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.691, 0.753, 44) # aug_uni_10 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.692, 0.751, 51) # aug_rand_5 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.682, 0.741, 59) # aug_rand_10
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.694, **0.762**, 72) # cop-no_aug     
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.679, 0.760, 48) # cop-aug_uni_5  
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.687, 0.747, 39) # cop-aug_uni_10 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.609, 0.667, 44) # cop-aug_rand_5 
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.554, 0.686, 71) # cop-aug_rand_10
+
+# Current Best Records
+- ParT_Light: (lr1e-03, b64x8) $\Rightarrow$ (0.698, **0.768**, 55) # Pure jet-flavor CWoLa
+- ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.703, **0.777**, 76) # cop
+- CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.683, **0.755**, 28) # cop + aug_uni_10 
+- ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.709, **0.790**, 28) # cop + aug_rand_10
+- CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.686, **0.751**, 27) # ex + aug_rand_5 
+- ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.723, **0.796**, 65) # ex + cop-no_aug
