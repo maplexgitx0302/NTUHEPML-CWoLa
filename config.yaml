@@ -1,4 +1,5 @@
-tags: ['ex-decay', 'jet-flavor']
+result_dir: 'result-zz4l'
+tags: ['original', 'jet-flavor']
 
 preprocessings: []
 augmentations:
@@ -29,22 +30,31 @@ training:
     frequency: 1          # frequency of applying the scheduler, can be 1 or more
 
 dataset:
-  CWoLa_mode: 'pure_random'
-  include_decay: false       # whether to include decay channels in the dataset
-  num_channels: 2            # number of channels, ex: ['PHOTON', 'TOWER', 'TRACK']
+  CWoLa_mode: 'jet_flavor'
+  include_decay: true        # whether to include decay channels in the dataset
+  num_channels: 3            # number of channels, ex: ['PHOTON', 'TOWER', 'TRACK']
   
   train_fraction: 0.8        # fraction of training / (training + validation)
   num_test: 10000            # number of test samples
   
   luminosity: 3000           # luminosity in fb^-1
-  branching_ratio: 0.00227   # branching ratio for H -> aa
+  # branching_ratio: 0.00227   # branching ratio for H -> aa
+  branching_ratio: 0.000124  # branching ratio for H -> ZZ -> 4l
   
   signal:
-    path: 'dataset/VBF_diphoton.h5'
+    # path: 'dataset/VBF_diphoton.h5'
+    # cross_section: 4278.0    # 4.278 * 1000, precomputed
+    # preselection_rate: 0.41  # preselection rate for VBF
+
+    path: 'dataset/VBF_zz4l.h5'
     cross_section: 4278.0    # 4.278 * 1000, precomputed
-    preselection_rate: 0.41  # preselection rate for VBF
+    preselection_rate: 0.17  # preselection rate for VBF
   
   background:
-    path: 'dataset/GGF_diphoton.h5'
+    # path: 'dataset/GGF_diphoton.h5'
+    # cross_section: 54670.0   # 54.67 * 1000, precomputed
+    # preselection_rate: 0.09  # preselection rate for GGF
+
+    path: 'dataset/GGF_zz4l.h5'
     cross_section: 54670.0   # 54.67 * 1000, precomputed
-    preselection_rate: 0.09  # preselection rate for GGF
+    preselection_rate: 0.07  # preselection rate for GGF

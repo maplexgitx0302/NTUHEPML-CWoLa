@@ -88,24 +88,58 @@ class CNN_Light(CNN_Baseline):
         )
 
 
-class CNN_ExtremeLight(CNN_Baseline):
-    def __init__(self, num_rot=1, num_channels=3):
-        """Minimal CNN for (3, 40, 40) input with low capacity."""
-        super().__init__(num_rot)
+class CNN_EventCNN(nn.Module):
+    def __init__(self, num_channels=3):
+        """Assuming input images are of size (3, 40, 40)."""
+        super().__init__()
 
-        self.cnn = nn.Sequential(
-            nn.Conv2d(num_channels, 4, kernel_size=3, padding=1),   # (3, 40, 40) → (4, 40, 40)
+        self.conv_1 = nn.Sequential(
+            nn.Conv2d(num_channels, 32, kernel_size=3, padding=0), # (3, 40, 40) → (32, 38, 38)
             nn.ReLU(),
-            nn.MaxPool2d(2),                             # → (4, 20, 20)
+            nn.Conv2d(32, 64, kernel_size=3, padding=0), # → (32, 36, 36)
+            nn.ReLU(),
+            nn.MaxPool2d(3), # → (64, 12, 12)
+        )
 
-            nn.Conv2d(4, 8, kernel_size=3, padding=1),   # → (8, 20, 20)
+        self.conv_2 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
             nn.ReLU(),
-            nn.MaxPool2d(2),                             # → (8, 10, 10)
+            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.ReLU(),
+        )
+
+        self.conv_3 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.ReLU(),
+        )
+
+        self.conv_4 = nn.Sequential(
+            nn.Conv2d(64, 64, kernel_size=3, padding=0), # (64, 12, 12) → (64, 10, 10)
+            nn.ReLU(),
+            nn.AvgPool2d(10), # → (64, 1, 1)
+            nn.Flatten(), # → 64
         )
 
         self.fnn = nn.Sequential(
-            nn.Flatten(),                                # → 8 * 10 * 10 = 800
-            nn.Linear(800, 16),
+            nn.Linear(64, 256),
             nn.ReLU(),
-            nn.Linear(16, 1)
+            nn.Linear(256, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Linear(128, 1),
         )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.conv_1(x)
+        x = self.conv_2(x) + x  # residual connection
+        x = self.conv_3(x) + x  # residual connection
+        x = self.conv_4(x)
+        x = self.fnn(x)
+        return x

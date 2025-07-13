@@ -11,7 +11,7 @@ This markdown file records the training result logs. The symbols and abbreviatio
 - `cop`: Center of $p_T$ frame.
 
 
-### Pure Training with CWoLa Setup
+### VBF/GGF to di-photon: Pure Training with CWoLa Setup
 - CWoLa split by jet flavor: `2q0g`, `1q1g`, and `2g0q`.
 - No preprocessing and no data augmentation.
 - Maiximum 100 epochs, with early stopping and lr scheduler.
@@ -19,6 +19,7 @@ This markdown file records the training result logs. The symbols and abbreviatio
 - First training conducted in version 20250616-212748, and 20250617-092802 slightly tuned some of the lr.
 - Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.630, 0.674, 47) # (20250616-212748) lr-baseline
+  - CNN_EventCNN: (lr1e-04, b64x8) $\Rightarrow$ (0.645, 0.730, 90) # (20250713-173106) lr-baseline
   - CNN_Light: (lr5e-05, b64x8) $\Rightarrow$ (0.615, 0.654, 66) # (20250616-212748) lr-baseline
   - ParT_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.685, 0.752, 94) # (20250616-212748) lr-baseline
   - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.696, 0.760, 86) # (20250617-092802) tuned lr
@@ -100,6 +101,8 @@ This markdown file records the training result logs. The symbols and abbreviatio
 - Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.630, 0.674, 47) # (20250616-212748) in_decay
   - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.673, 0.729, 47) # (20250630-191524) ex_decay
+  - CNN_EventCNN: (lr1e-04, b64x8) $\Rightarrow$ (0.645, 0.730, 90) # (20250713-173106) in_decay
+  - CNN_EventCNN: (lr1e-04, b64x8) $\Rightarrow$ (0.667, 0.729, 100) # (20250713-173545) ex_decay
   - CNN_Light: (lr5e-05, b64x8) $\Rightarrow$ (0.615, 0.654, 66) # (20250616-212748) in_decay
   - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.654, 0.702, 29) # (20250630-191524) ex_decay
   - ParT_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.685, 0.752, 94) # (20250616-212748) in_decay
@@ -191,6 +194,25 @@ This markdown file records the training result logs. The symbols and abbreviatio
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.687, 0.747, 39) # cop-aug_uni_10 
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.609, 0.667, 44) # cop-aug_rand_5 
   - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.554, 0.686, 71) # cop-aug_rand_10
+
+### VBF/GGF to ZZ4l: Pure Training with CWoLa Setup
+- Model: $(\eta, N_\text{step}, N_\text{accum}) \Rightarrow (ACC_\text{test}, AUC_\text{test}, E_\text{early})$
+  - CNN_EventCNN: (lr2e-04, b64x8) $\Rightarrow$ (0.500, 0.773, 21) # (20250713-235925) in_decay
+  - CNN_EventCNN: (lr2e-04, b64x8) $\Rightarrow$ (0.500, 0.357, 45) # (20250713-230707) ex_decay
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.628, 0.707, 21) # (20250713-235925) in_decay
+  - CNN_Baseline: (lr1e-05, b64x8) $\Rightarrow$ (0.463, 0.398, 79) # (20250713-230707) ex_decay
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.563, 0.560, 58) # (20250713-235925) in_decay
+  - CNN_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.518, 0.511, 35) # (20250713-230707) ex_decay
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.500, 0.484, 23) # (20250713-235925) in_decay
+  - ParT_Baseline: (lr5e-05, b64x8) $\Rightarrow$ (0.529, 0.570, 28) # (20250713-230707) ex_decay
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.501, 0.563, 24) # (20250713-235925) in_decay
+  - ParT_Medium: (lr1e-04, b64x8) $\Rightarrow$ (0.599, 0.638, 100) # (20250713-230707) ex_decay
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.578, 0.611, 87) # (20250713-235925) in_decay
+  - ParT_Light: (lr5e-04, b64x8) $\Rightarrow$ (0.505, 0.505, 23) # (20250713-230707) ex_decay
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.500, 0.600, 21) # (20250713-235925) in_decay
+  - ParT_SuperLight: (lr1e-03, b64x8) $\Rightarrow$ (0.505, 0.583, 29) # (20250713-230707) ex_decay
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.561, 0.608, 68) # (20250713-235925) in_decay
+  - ParT_ExtremeLight: (lr5e-03, b64x8) $\Rightarrow$ (0.500, 0.426, 27) # (20250713-230707) ex_decay
 
 # Current Best Records
 - ParT_Light: (lr1e-03, b64x8) $\Rightarrow$ (0.698, **0.768**, 55) # Pure jet-flavor CWoLa
