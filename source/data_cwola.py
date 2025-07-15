@@ -3,7 +3,7 @@ import torch
 
 def split_by_pure_random(
     sig_tensor: torch.Tensor, bkg_tensor: torch.Tensor,
-    train_fraction: float = 0.8, num_test: int = 10000
+    num_train: int, num_valid: int, num_test: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
 
     print(f"{'=' * 20} Data Size Information {'=' * 20}")
@@ -12,12 +12,12 @@ def split_by_pure_random(
     # Randomly sampling and artificially set num_test for signal and background
     sig_index = torch.randperm(len(sig_tensor))
     bkg_index = torch.randperm(len(bkg_tensor))
-    sig_train_index = sig_index[:int(len(sig_index) * train_fraction)]
-    bkg_train_index = bkg_index[:int(len(bkg_index) * train_fraction)]
-    sig_valid_index = sig_index[int(len(sig_index) * train_fraction):int(len(sig_index))]
-    bkg_valid_index = bkg_index[int(len(bkg_index) * train_fraction):int(len(bkg_index))]
-    sig_test_index = sig_index[int(len(sig_index)):int(len(sig_index)) + num_test]
-    bkg_test_index = bkg_index[int(len(bkg_index)):int(len(bkg_index)) + num_test]
+    sig_train_index = sig_index[:num_train]
+    bkg_train_index = bkg_index[:num_train]
+    sig_valid_index = sig_index[num_train:num_train + num_valid]
+    bkg_valid_index = bkg_index[num_train:num_train + num_valid]
+    sig_test_index = sig_index[num_train + num_valid:num_train + num_valid + num_test]
+    bkg_test_index = bkg_index[num_train + num_valid:num_train + num_valid + num_test]
 
     # Create mixed tensors for implementing CWoLa
     train_sig = sig_tensor[sig_train_index]
