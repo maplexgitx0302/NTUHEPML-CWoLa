@@ -1,14 +1,9 @@
 # system files
 __pycache__/
 
-# dataset
-dataset/
+# training files
+data/
+output/
 
-# training result
-result-*
-training_logs/
-lightning_logs/
-
-# test files
+# private files
 _*
-a.py

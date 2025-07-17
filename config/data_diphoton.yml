@@ -1,0 +1,14 @@
+decay_channel: 'diphoton'
+
+luminosity: 3000           # luminosity in fb^-1
+branching_ratio: 0.00227   # branching ratio for H -> aa
+
+signal:
+  path: 'data/VBF_diphoton.h5'
+  cross_section: 4278.0    # 4.278 * 1000, precomputed
+  preselection_rate: 0.41  # preselection rate for VBF
+
+background:
+  path: 'data/GGF_diphoton.h5'
+  cross_section: 54670.0   # 54.67 * 1000, precomputed
+  preselection_rate: 0.09  # preselection rate for GGF

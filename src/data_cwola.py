@@ -1,7 +1,7 @@
 import torch
 
 
-def split_by_pure_random(
+def split_by_sv(
     sig_tensor: torch.Tensor, bkg_tensor: torch.Tensor,
     num_train: int, num_valid: int, num_test: int,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
@@ -41,7 +41,7 @@ def split_by_jet_flavor(
     branching_ratio: float, luminosity: float,
     sig_cross_section: float, bkg_cross_section: float,
     sig_preselection_rate: float = 1, bkg_preselection_rate: float = 1,
-    train_fraction: float = 0.8, num_test: int = 10000
+    train_size: float = 0.8, num_test: int = 10000
 ) -> tuple[torch.Tensor]:
 
     print(f"{'=' * 20} Data Size Information {'=' * 20}")
@@ -63,10 +63,10 @@ def split_by_jet_flavor(
     # Randomly sampling and artificially set num_test for signal and background
     sig_index = sig_index[torch.randperm(len(sig_index))]
     bkg_index = bkg_index[torch.randperm(len(bkg_index))]
-    sig_train_index = sig_index[:int(num_sig * train_fraction)]
-    bkg_train_index = bkg_index[:int(num_bkg * train_fraction)]
-    sig_valid_index = sig_index[int(num_sig * train_fraction):int(num_sig)]
-    bkg_valid_index = bkg_index[int(num_bkg * train_fraction):int(num_bkg)]
+    sig_train_index = sig_index[:int(num_sig * train_size)]
+    bkg_train_index = bkg_index[:int(num_bkg * train_size)]
+    sig_valid_index = sig_index[int(num_sig * train_size):int(num_sig)]
+    bkg_valid_index = bkg_index[int(num_bkg * train_size):int(num_bkg)]
     sig_test_index = sig_index[int(num_sig):int(num_sig) + num_test]
     bkg_test_index = bkg_index[int(num_bkg):int(num_bkg) + num_test]
 

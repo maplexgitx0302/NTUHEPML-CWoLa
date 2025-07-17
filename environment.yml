@@ -1,0 +1,19 @@
+name: cwola
+channels:
+  - conda-forge
+  - defaults
+  - nvidia
+  - pytorch
+dependencies:
+  - h5py
+  - ipynb-py-convert
+  - ipykernel
+  - jupyterlab
+  - lightning
+  - matplotlib
+  - numpy
+  - python=3.12
+  - pytorch
+  - pandas
+  - scikit-learn
+  - seaborn

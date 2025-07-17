@@ -1,0 +1,14 @@
+decay_channel: 'zz4l'
+
+luminosity: 3000           # luminosity in fb^-1
+branching_ratio: 0.000124  # branching ratio for H -> ZZ -> 4l
+
+signal:
+  path: 'data/VBF_zz4l.h5'
+  cross_section: 4278.0    # 4.278 * 1000, precomputed
+  preselection_rate: 0.17  # preselection rate for VBF
+
+background:
+  path: 'data/GGF_zz4l.h5'
+  cross_section: 54670.0   # 54.67 * 1000, precomputed
+  preselection_rate: 0.07  # preselection rate for GGF

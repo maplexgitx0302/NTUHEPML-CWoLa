@@ -4,6 +4,38 @@ This project applies deep learning to distinguish between VBF and GGF Higgs prod
 
 ---
 
+## Environment Setup
+
+1. Download miniconda through:
+   ```bash
+   # Assuming Linux system
+   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+   # Install thorugh sh. Type 'yes' when asking automatically initialization.
+   sh Miniconda3-latest-Linux-x86_64.sh
+   ```
+
+2. Create a virtual environment:
+   ```bash
+   # Initialization
+   conda env create -f environment.yml
+
+   # Update when the environment.yml changed
+   conda env update -f environment.yml
+   ```
+
+3. Directly activate in Jupyter, or activate/exit with:
+   ```bash
+   conda activate cwola
+   conda deactivate
+   ```
+
+4. (Optional) Create a `.env` such that VSCode can fetch the packages.
+   ```
+   PYTHONPATH=~/miniconda3/envs/cwola/lib/python3.12/site-packages
+   ```
+
+
 ## Models
 
 #### Convolutional Neural Networks (CNN)
@@ -25,11 +57,8 @@ This project applies deep learning to distinguish between VBF and GGF Higgs prod
 The data preprocessings can be implemented by the following steps:
 
 1. Check the supported methods:
-   - **data preprocessing:** Check the methods provided in the class `./source/data_preprocess.py` &rarr; `MCSimData`
-   - **data augmentation:** Supported functions can be found in `./source/data_augment.py`.
-2. Give abbreviations for the preprocessing methods in the class `LitDataModule`.
-    `./main.ipynb` &rarr; `LitDataModule` &rarr; `__init__`
-3. Determine which preprocessings to be used in `config.yaml` by their abbreviations.
-   `./config.yaml` &rarr; `dataset` &rarr; `preprocessings`
-4. To distinguish each training result, we recommend to add tags for each training in `config.yaml`.
-   `./config.yaml` &rarr; `tags`
+   - **data preprocessing:** Check the methods provided in the class `src.data_preprocess.MCSimData`
+   - **data augmentation:** Supported functions can be found in `src.data_augment`.
+2. Give abbreviations for the preprocessing/augmentation methods in the class `LitDataModule`.
+    `./notebooks/training.ipynb` &rarr; `LitDataModule` &rarr; `__init__`
+3. Determine which preprocessings/augmentations to be used through YAML files in `./config` with file named `exp_*.yml`.

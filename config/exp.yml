@@ -1,0 +1,22 @@
+preprocessings: []
+
+augmentations:
+  functions: []
+  rotations: 0
+
+Trainer:
+  max_epochs: 10             # maximum number of epochs to train the model
+  accelerator: 'gpu'          # 'cpu' or 'gpu'
+  accumulate_grad_batches: 8  # number of batches to accumulate gradients over
+
+LitDataModule:
+  mode: 'jet_flavor'    # 'jet_flavor' or 'pure_random'
+  
+  include_decay: false  # whether to include decay channels in the dataset
+  num_channels: 2       # number of channels, ex: ['PHOTON', 'TOWER', 'TRACK']
+
+  batch_size: 16        # batch size for training
+  train_size: 0.8       # fraction of training / (training + validation)
+  num_train: 10000      # number of training samples for 'pure_random' mode
+  num_valid: 1000       # number of validation samples for 'pure_random' mode
+  num_test: 1000        # number of test samples for both 'jet_flavor' and 'pure_random' modes
