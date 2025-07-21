@@ -64,72 +64,48 @@ class CNN_Baseline(nn.Module):
         return x
 
 
-class CNN_Light(CNN_Baseline):
-    def __init__(self, num_rot=1, num_channels=3):
-        """Assuming input images are of size (3, 40, 40)."""
-
-        super().__init__(num_rot)
-
-        self.cnn = nn.Sequential(
-            nn.Conv2d(num_channels, 8, kernel_size=3, padding=1),   # (3, 40, 40) → (8, 40, 40)
-            nn.ReLU(),
-            nn.MaxPool2d(2),                             # → (8, 20, 20)
-
-            nn.Conv2d(8, 16, kernel_size=3, padding=1),  # → (16, 20, 20)
-            nn.ReLU(),
-            nn.MaxPool2d(2),                             # → (16, 10, 10)
-        )
-
-        self.fnn = nn.Sequential(
-            nn.Flatten(),                                # → 16 * 10 * 10 = 1600
-            nn.Linear(1600, 32),
-            nn.ReLU(),
-            nn.Linear(32, 1)
-        )
-
-
 class CNN_EventCNN(nn.Module):
     def __init__(self, num_channels=3):
         """Assuming input images are of size (3, 40, 40)."""
         super().__init__()
 
         self.conv_1 = nn.Sequential(
-            nn.Conv2d(num_channels, 32, kernel_size=3, padding=0), # (3, 40, 40) → (32, 38, 38)
+            nn.Conv2d(num_channels, 32, kernel_size=3, padding=0),  # (3, 40, 40) → (32, 38, 38)
             nn.ReLU(),
-            nn.Conv2d(32, 64, kernel_size=3, padding=0), # → (32, 36, 36)
+            nn.Conv2d(32, 64, kernel_size=3, padding=0),  # → (32, 36, 36)
             nn.ReLU(),
-            nn.MaxPool2d(3), # → (64, 12, 12)
+            nn.MaxPool2d(3),  # → (64, 12, 12)
         )
 
         self.conv_2 = nn.Sequential(
-            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),  # (64, 12, 12) → (64, 12, 12)
             nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),  # (64, 12, 12) → (64, 12, 12)
             nn.ReLU(),
         )
 
         self.conv_3 = nn.Sequential(
-            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),  # (64, 12, 12) → (64, 12, 12)
             nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1), # (64, 12, 12) → (64, 12, 12)
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),  # (64, 12, 12) → (64, 12, 12)
             nn.ReLU(),
         )
 
         self.conv_4 = nn.Sequential(
-            nn.Conv2d(64, 64, kernel_size=3, padding=0), # (64, 12, 12) → (64, 10, 10)
+            nn.Conv2d(64, 64, kernel_size=3, padding=0),  # (64, 12, 12) → (64, 10, 10)
             nn.ReLU(),
-            nn.AvgPool2d(10), # → (64, 1, 1)
-            nn.Flatten(), # → 64
+            nn.AvgPool2d(10),  # → (64, 1, 1)
+            nn.Flatten(),  # → 64
         )
 
         self.fnn = nn.Sequential(
             nn.Linear(64, 256),
             nn.ReLU(),
-            nn.Linear(256, 256),
+            nn.Dropout(0.1),
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU(),
-            nn.Linear(128, 128),
+            nn.Dropout(0.1),
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),

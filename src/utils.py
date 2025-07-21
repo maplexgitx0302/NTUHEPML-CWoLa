@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+sns.set_theme()
+
 
 def count_model_parameters(lit_model: lightning.LightningModule, output_dir: str):
     """Count the number of parameters in the model and save the summary."""

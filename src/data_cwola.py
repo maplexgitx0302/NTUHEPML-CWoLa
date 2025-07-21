@@ -9,28 +9,20 @@ def split_by_sv(
     print(f"{'=' * 20} Data Size Information {'=' * 20}")
     print(f'Signal shape: {sig_tensor.shape}, Background shape: {bkg_tensor.shape}')
 
-    # Randomly sampling and artificially set num_test for signal and background
-    sig_index = torch.randperm(len(sig_tensor))
-    bkg_index = torch.randperm(len(bkg_tensor))
-    sig_train_index = sig_index[:num_train]
-    bkg_train_index = bkg_index[:num_train]
-    sig_valid_index = sig_index[num_train:num_train + num_valid]
-    bkg_valid_index = bkg_index[num_train:num_train + num_valid]
-    sig_test_index = sig_index[num_train + num_valid:num_train + num_valid + num_test]
-    bkg_test_index = bkg_index[num_train + num_valid:num_train + num_valid + num_test]
-
-    # Create mixed tensors for implementing CWoLa
-    train_sig = sig_tensor[sig_train_index]
-    train_bkg = bkg_tensor[bkg_train_index]
-    valid_sig = sig_tensor[sig_valid_index]
-    valid_bkg = bkg_tensor[bkg_valid_index]
-    test_sig = sig_tensor[sig_test_index]
-    test_bkg = bkg_tensor[bkg_test_index]
+    # Randomly choose samples for training, validation, and testing
+    sig_tensor = sig_tensor[torch.randperm(len(sig_tensor))]
+    bkg_tensor = bkg_tensor[torch.randperm(len(bkg_tensor))]
+    train_sig = sig_tensor[:num_train]
+    train_bkg = bkg_tensor[:num_train]
+    valid_sig = sig_tensor[num_train: num_train + num_valid]
+    valid_bkg = bkg_tensor[num_train: num_train + num_valid]
+    test_sig = sig_tensor[num_train + num_valid: num_train + num_valid + num_test]
+    test_bkg = bkg_tensor[num_train + num_valid: num_train + num_valid + num_test]
 
     print(f'Train signal shape: {train_sig.shape}, Train background shape: {train_bkg.shape}')
     print(f'Valid signal shape: {valid_sig.shape}, Valid background shape: {valid_bkg.shape}')
     print(f'Test signal shape: {test_sig.shape}, Test background shape: {test_bkg.shape}')
-    print(f"{'=' * 50}")
+    print(f"{'=' * 63}")
 
     return train_sig, train_bkg, valid_sig, valid_bkg, test_sig, test_bkg
 
@@ -92,6 +84,6 @@ def split_by_jet_flavor(
     print(f'Train signal shape: {train_sig.shape}, Train background shape: {train_bkg.shape}')
     print(f'Valid signal shape: {valid_sig.shape}, Valid background shape: {valid_bkg.shape}')
     print(f'Test signal shape: {test_sig.shape}, Test background shape: {test_bkg.shape}')
-    print(f"{'=' * 50}")
+    print(f"{'=' * 63}")
 
     return train_sig, train_bkg, valid_sig, valid_bkg, test_sig, test_bkg

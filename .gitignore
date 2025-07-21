@@ -4,6 +4,7 @@ __pycache__/
 # training files
 data/
 output/
+notebooks/*.py
 
 # private files
 _*
