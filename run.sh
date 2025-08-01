@@ -9,10 +9,26 @@ conda activate cwola
 # Convert the notebook to a Python script
 ipynb-py-convert notebooks/training.ipynb notebooks/training.py
 
-# Run the Python script
+# Define variables
+data_yml='./config/data_diphoton.yml'
+
+# # >>> specific runs >>>
+# current_time='20250721_121840'
+# rnd_seed=2
+# python notebooks/training.py -e './config/exp_jet.yml' -i 'jet_flavor' -d $data_yml -r $rnd_seed -t $current_time
+# # <<< specific runs <<<
+
+# >>> batch runs >>>
 current_time=$(date '+%Y%m%d_%H%M%S')
-# python notebooks/training.py -d './config/data_zz4l.yml' -e './config/exp.yml' -i 'test1,test2' -r 42 -t $current_time
-python notebooks/training.py -d './config/data_diphoton.yml' -e './config/exp.yml' -i 'test1,test2' -r 42 -t $current_time
+include_decay=False  # Either 'True' or 'False'
+for rnd_seed in {1..5}
+do  
+    python notebooks/training.py -e './config/exp_jet.yml' -i 'jet_flavor' -d $data_yml -r $rnd_seed -t $current_time -x $include_decay
+    python notebooks/training.py -e './config/exp_jet_uni5.yml' -i 'jet_flavor,uni5' -d $data_yml -r $rnd_seed -t $current_time -x $include_decay
+    python notebooks/training.py -e './config/exp_jet_uni10.yml' -i 'jet_flavor,uni10' -d $data_yml -r $rnd_seed -t $current_time -x $include_decay
+    python notebooks/training.py -e './config/exp_jet_uni15.yml' -i 'jet_flavor,uni15' -d $data_yml -r $rnd_seed -t $current_time -x $include_decay
+done
+# <<< batch runs <<<
 
 # Remove the Python script regardless of success or failure
 rm notebooks/training.py

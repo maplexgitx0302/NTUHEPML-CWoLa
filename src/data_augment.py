@@ -45,3 +45,34 @@ def aug_phi_shift(data: torch.Tensor, format: str, rotations: int, mode: str) ->
         augmented.append(new_data)
 
     return torch.cat(augmented, dim=0)
+
+
+def aug_pt_smearing(data: torch.Tensor, format: str, num_augs: int) -> torch.Tensor:
+    """Augment the data by smearing the pt values.
+
+        Args:
+            data (torch.Tensor): Input data tensor.
+            format (str): Format of the data, either 'image' or 'sequence'.
+    """
+
+    augmented = [data]
+
+    for _ in range(num_augs):
+
+        new_data = data.clone()
+
+        if format == 'image':
+            pt = new_data
+            pt_std = torch.sqrt(0.052 * pt ** 2 + 1.502 * pt)
+            new_data = new_data + torch.normal(mean=pt, std=pt_std)
+        elif format == 'sequence':
+            pt_column = 0  # See `to_sequence` function in data_preprocess.py
+            pt = new_data[..., pt_column]
+            pt_std = torch.sqrt(0.052 * pt ** 2 + 1.502 * pt)
+            new_data[..., pt_column] += torch.normal(mean=pt, std=pt_std)
+        else:
+            raise ValueError(f"Unsupported format: {format}")
+
+        augmented.append(new_data)
+
+    return torch.cat(augmented, dim=0)
