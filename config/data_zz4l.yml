@@ -1,6 +1,6 @@
 decay_channel: 'zz4l'
 
-luminosity: 30000          # luminosity in fb^-1
+luminosity: 3000           # luminosity in fb^-1
 branching_ratio: 0.000124  # branching ratio for H -> ZZ -> 4l
 
 signal:

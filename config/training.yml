@@ -12,13 +12,13 @@ EarlyStopping:          # see lightning.callbacks.EarlyStopping
   patience: 20          # number of epochs with no improvement after which training will be stopped
 
 optimizer_settings:
-  optimizer: 'RAdam'                 # class of torch.optim optimizer, e.g., 'Adam', 'SGD', 'RAdam', etc.
+  optimizer: 'Adam'                  # class of torch.optim optimizer, e.g., 'Adam', 'SGD', 'RAdam', etc.
   lr_scheduler: 'ReduceLROnPlateau'  # class of torch.optim.lr_scheduler, e.g., 'StepLR', 'ReduceLROnPlateau', etc.
 
   ReduceLROnPlateau:
     mode: 'max'           # mode for the scheduler
     factor: 0.5           # factor by which the learning rate will be reduced
-    patience: 5           # number of epochs with no improvement after which the learning rate will be reduced
+    patience: 10          # number of epochs with no improvement after which the learning rate will be reduced
     threshold: 0.0001     # threshold for measuring the new optimum, used in ReduceLROnPlateau
 
   lightning_monitor:

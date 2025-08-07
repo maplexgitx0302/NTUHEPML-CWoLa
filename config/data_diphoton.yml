@@ -1,6 +1,6 @@
 decay_channel: 'diphoton'
 
-luminosity: 300            # luminosity in fb^-1
+luminosity: 3000           # luminosity in fb^-1
 branching_ratio: 0.00227   # branching ratio for H -> aa
 
 signal:

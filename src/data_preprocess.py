@@ -1,7 +1,10 @@
 import h5py
+from pathlib import Path
 
 import numpy as np
 import torch
+
+project_root = Path(__file__).parent.parent
 
 
 class MCSimData:
@@ -15,7 +18,7 @@ class MCSimData:
         """
 
         # Read the HDF5 file and store it in the class
-        with h5py.File(path, 'r') as hdf5_file:
+        with h5py.File(project_root / Path(path), 'r') as hdf5_file:
             print(f'Loading data from {path} ...')
 
             # Extract the jet flavor information
@@ -69,7 +72,7 @@ class MCSimData:
                     # Compute the squared differences in pt, eta, and phi
                     eta_diff = (eta[:, :, np.newaxis] - decay_eta[:, np.newaxis, :]) ** 2
                     phi_diff = (phi[:, :, np.newaxis] - decay_phi[:, np.newaxis, :]) ** 2
-                    
+
                     # Sum the differences and check if they are below the threshold
                     diff = eta_diff + phi_diff  # It turns out that considering only dR is better, < 1% noise
                     non_decay = np.sum(diff == 0, axis=-1) == 0
@@ -79,7 +82,7 @@ class MCSimData:
 
                     # Exclude decay products by modifying the mask
                     mask = mask & non_decay
-                
+
                 self.data[channel]['mask'] = mask
 
     def preprocess_center_of_phi(self, eps=1e-8):
@@ -90,6 +93,7 @@ class MCSimData:
             phi = phi - np.sum(pt * phi, axis=-1, keepdims=True) / (np.sum(pt, axis=-1, keepdims=True) + eps)
             phi = np.mod(phi + np.pi, 2 * np.pi) - np.pi
             self.data[channel]['phi'] = phi
+        return self
 
     def to_image(self, grid_size: int = 40) -> torch.Tensor:
         """Convert the particle flow data to images."""

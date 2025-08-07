@@ -10,10 +10,9 @@ Trainer:
   accumulate_grad_batches: 4  # number of batches to accumulate gradients over
 
 LitDataModule:
-  mode: 'pure_random'   # 'jet_flavor' or 'pure_random'
+  mode: 'supervised'    # 'jet_flavor' or 'pure_random'
 
   batch_size: 128       # batch size for training
-  train_size: 0.8       # fraction of training / (training + validation)
   num_train: 100000     # number of training samples for 'pure_random' mode
   num_valid: 25000      # number of validation samples for 'pure_random' mode
   num_test: 25000       # number of test samples for both 'jet_flavor' and 'pure_random' modes

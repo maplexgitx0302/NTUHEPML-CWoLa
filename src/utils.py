@@ -20,6 +20,18 @@ def count_model_parameters(lit_model: lightning.LightningModule, output_dir: str
             print(f"\n{'='*100}\n", file=file)
 
 
+def count_number_of_data(lit_datamodule: lightning.LightningDataModule, output_dir: str):
+    """Count the number of data samples in the datamodule and save the counts."""
+
+    with open(os.path.join(output_dir, 'num_data.txt'), 'w') as file:
+        print(f"Number of training signal samples: {len(lit_datamodule.train_sig)}", file=file)
+        print(f"Number of training background samples: {len(lit_datamodule.train_bkg)}", file=file)
+        print(f"Number of validation signal samples: {len(lit_datamodule.valid_sig)}", file=file)
+        print(f"Number of validation background samples: {len(lit_datamodule.valid_bkg)}", file=file)
+        print(f"Number of test signal samples: {len(lit_datamodule.test_sig)}", file=file)
+        print(f"Number of test background samples: {len(lit_datamodule.test_bkg)}", file=file)
+
+
 def plot_metrics(output_dir: str):
     """Plot training and validation metrics from the CSV log file."""
 
