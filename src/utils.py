@@ -24,12 +24,12 @@ def count_number_of_data(lit_datamodule: lightning.LightningDataModule, output_d
     """Count the number of data samples in the datamodule and save the counts."""
 
     with open(os.path.join(output_dir, 'num_data.txt'), 'w') as file:
-        print(f"Number of training signal samples: {len(lit_datamodule.train_sig)}", file=file)
-        print(f"Number of training background samples: {len(lit_datamodule.train_bkg)}", file=file)
-        print(f"Number of validation signal samples: {len(lit_datamodule.valid_sig)}", file=file)
-        print(f"Number of validation background samples: {len(lit_datamodule.valid_bkg)}", file=file)
-        print(f"Number of test signal samples: {len(lit_datamodule.test_sig)}", file=file)
-        print(f"Number of test background samples: {len(lit_datamodule.test_bkg)}", file=file)
+        print(f"Number of train_sig samples: {len(lit_datamodule.train_sig)}", file=file)
+        print(f"Number of train_bkg samples: {len(lit_datamodule.train_bkg)}", file=file)
+        print(f"Number of valid_sig samples: {len(lit_datamodule.valid_sig)}", file=file)
+        print(f"Number of valid_bkg samples: {len(lit_datamodule.valid_bkg)}", file=file)
+        print(f"Number of test_sig  samples: {len(lit_datamodule.test_sig)}", file=file)
+        print(f"Number of test_bkg  samples: {len(lit_datamodule.test_bkg)}", file=file)
 
 
 def plot_metrics(output_dir: str):
@@ -40,7 +40,7 @@ def plot_metrics(output_dir: str):
     # 1st row: train | 2nd row: valid
     fig, ax = plt.subplots(2, 3, figsize=(10, 6))
     metrics = [
-        'train_loss_epoch', 'train_accuracy', 'train_auc',
+        'train_loss', 'train_accuracy', 'train_auc',
         'valid_loss', 'valid_accuracy', 'valid_auc'
     ]
 

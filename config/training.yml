@@ -1,27 +1,27 @@
-ModelCheckpoint:        # see lightning.callbacks.ModelCheckpoint
-  monitor: 'valid_auc'  # metric to monitor for saving the best model
-  mode: 'max'           # mode for the checkpointing
-  save_top_k: 5         # number of best models to save
-  save_last: True       # whether to save the last model
-  filename: '{epoch}-{valid_auc:.3f}-{valid_accuracy:.3f}'  # filename format for saved models
+ModelCheckpoint:          # see lightning.callbacks.ModelCheckpoint
+  monitor: 'valid_loss'   # metric to monitor for saving the best model
+  mode: 'min'             # mode for the checkpointing
+  save_top_k: 1           # number of best models to save
+  save_last: False        # whether to save the last model
+  filename: '{epoch}-{valid_loss:.3f}-{valid_auc:.3f}-{valid_accuracy:.3f}'  # filename format for saved models
 
-EarlyStopping:          # see lightning.callbacks.EarlyStopping
-  mode: 'max'           # mode for the early stopping
-  monitor: 'valid_auc'  # metric to monitor for early stopping
-  min_delta: 0.0001     # minimum change to qualify as an improvement for early stopping
-  patience: 20          # number of epochs with no improvement after which training will be stopped
+EarlyStopping:            # see lightning.callbacks.EarlyStopping
+  mode: 'min'             # mode for the early stopping
+  monitor: 'valid_loss'   # metric to monitor for early stopping
+  min_delta: 0.0          # minimum change to qualify as an improvement for early stopping
+  patience: 10            # number of epochs with no improvement after which training will be stopped
 
 optimizer_settings:
-  optimizer: 'Adam'                  # class of torch.optim optimizer, e.g., 'Adam', 'SGD', 'RAdam', etc.
-  lr_scheduler: 'ReduceLROnPlateau'  # class of torch.optim.lr_scheduler, e.g., 'StepLR', 'ReduceLROnPlateau', etc.
+  optimizer: 'Adam'       # class of torch.optim optimizer, e.g., 'Adam', 'SGD', 'RAdam', etc.
+  lr_scheduler: null      # class of torch.optim.lr_scheduler, e.g., 'StepLR', 'ReduceLROnPlateau', etc.
 
-  ReduceLROnPlateau:
-    mode: 'max'           # mode for the scheduler
-    factor: 0.5           # factor by which the learning rate will be reduced
-    patience: 10          # number of epochs with no improvement after which the learning rate will be reduced
-    threshold: 0.0001     # threshold for measuring the new optimum, used in ReduceLROnPlateau
+  # ReduceLROnPlateau:
+  #   mode: 'max'           # mode for the scheduler
+  #   factor: 0.5           # factor by which the learning rate will be reduced
+  #   patience: 10          # number of epochs with no improvement after which the learning rate will be reduced
+  #   threshold: 0.0001     # threshold for measuring the new optimum, used in ReduceLROnPlateau
 
-  lightning_monitor:
-    monitor: 'valid_auc'  # metric to monitor for learning rate scheduling
-    interval: 'epoch'     # interval for the scheduler, can be 'epoch' or 'step'
-    frequency: 1          # frequency of applying the scheduler, can be 1 or more
+  # lightning_monitor:
+  #   monitor: 'valid_auc'  # metric to monitor for learning rate scheduling
+  #   interval: 'epoch'     # interval for the scheduler, can be 'epoch' or 'step'
+  #   frequency: 1          # frequency of applying the scheduler, can be 1 or more
