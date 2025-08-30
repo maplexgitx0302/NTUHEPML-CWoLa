@@ -6,6 +6,7 @@ channels:
   - pytorch
 dependencies:
   - h5py
+  - importnb
   - ipynb-py-convert
   - ipykernel
   - jupyterlab
