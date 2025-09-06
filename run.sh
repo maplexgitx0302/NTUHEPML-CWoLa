@@ -7,10 +7,10 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate cwola
 
 # Convert the notebook to a Python script
-ipynb-py-convert notebooks/main.ipynb tmp/main.py
+ipynb-py-convert notebooks/main_tf.ipynb tmp/main_tf.py
 
 # Run the training script
-python tmp/main.py
+python tmp/main_tf.py
 
 # Remove the Python script regardless of success or failure
-rm tmp/main.py
+rm tmp/main_tf.py
