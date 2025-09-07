@@ -6,6 +6,9 @@ source ~/miniconda3/etc/profile.d/conda.sh
 # Activate the conda environment
 conda activate cwola
 
+# Create a temporary directory if it doesn't exist
+mkdir -p tmp
+
 # Convert the notebook to a Python script
 ipynb-py-convert notebooks/main_tf.ipynb tmp/main_tf.py
 
