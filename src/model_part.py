@@ -6,6 +6,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+KERAS_LN_EPS = 1e-3
+PYTORCH_LN_EPS = 1e-5
+
 
 @torch.jit.script
 def prepare_interaction(x: torch.Tensor) -> torch.Tensor:
@@ -47,7 +50,7 @@ def prepare_interaction(x: torch.Tensor) -> torch.Tensor:
 
 class ParticleFeatureEmbedding(nn.Module):
 
-    def __init__(self, input_dim: int, embedding_dims: list) -> None:
+    def __init__(self, input_dim: int, embedding_dims: list, keras_init: bool = False) -> None:
 
         super().__init__()
 
@@ -55,8 +58,9 @@ class ParticleFeatureEmbedding(nn.Module):
         dims = [(dims[i], dims[i + 1]) for i in range(len(dims) - 1)]
 
         layers = []
+        eps = KERAS_LN_EPS if keras_init else PYTORCH_LN_EPS
         for _input_dim, _embed_dim in dims:
-            layers.append(nn.LayerNorm(_input_dim))
+            layers.append(nn.LayerNorm(_input_dim, eps=eps))
             layers.append(nn.Linear(_input_dim, _embed_dim))
             layers.append(nn.GELU())
 
@@ -91,11 +95,12 @@ class InteractionMatrixEmbedding(nn.Module):
 
 
 class MultiheadAttention(nn.Module):
-    def __init__(self, embed_dim: int, num_heads: int, dropout: int = 0.1, bias: bool = False, isheadscale: bool = True) -> None:
+    def __init__(self, embed_dim: int, num_heads: int, dropout: float = 0.1, bias: bool = False, isheadscale: bool = True) -> None:
         super().__init__()
 
         self.embed_dim = embed_dim
         self.num_heads = num_heads
+        assert embed_dim % num_heads == 0, "embed_dim must be divisible by num_heads"
         self.head_dim = embed_dim // num_heads
 
         # Linear projections for queries, keys, and values
@@ -158,15 +163,16 @@ class MultiheadAttention(nn.Module):
 
 class AttentionBlock(nn.Module):
 
-    def __init__(self, embed_dim: int, num_heads: int, fc_dim: int, dropout: float = 0.1, **kwargs) -> None:
+    def __init__(self, embed_dim: int, num_heads: int, fc_dim: int, dropout: float = 0.1, keras_init: bool = False, **kwargs) -> None:
         super().__init__()
 
         self.atte = MultiheadAttention(embed_dim=embed_dim, num_heads=num_heads, dropout=dropout)
-        self.pre_atte_layerNorm = nn.LayerNorm(embed_dim)
-        self.post_atte_layerNorm = nn.LayerNorm(embed_dim)
 
-        self.pre_fc_layerNorm = nn.LayerNorm(embed_dim)
-        self.post_fc_layerNorm = nn.LayerNorm(fc_dim)
+        eps = KERAS_LN_EPS if keras_init else PYTORCH_LN_EPS
+        self.pre_atte_layerNorm = nn.LayerNorm(embed_dim, eps=eps)
+        self.post_atte_layerNorm = nn.LayerNorm(embed_dim, eps=eps)
+        self.pre_fc_layerNorm = nn.LayerNorm(embed_dim, eps=eps)
+        self.post_fc_layerNorm = nn.LayerNorm(fc_dim, eps=eps)
 
         self.fc1 = nn.Linear(embed_dim, fc_dim)
         self.fc2 = nn.Linear(fc_dim, embed_dim)
@@ -234,7 +240,7 @@ class AttentionBlock(nn.Module):
 
 
 class ParticleTransformer(nn.Module):
-    def __init__(self, score_dim: int, parameters: dict):
+    def __init__(self, score_dim: int, parameters: dict, keras_init: bool = False):
         """Particle Transformer.
 
         Args:
@@ -249,6 +255,7 @@ class ParticleTransformer(nn.Module):
         self.par_embedding = ParticleFeatureEmbedding(
             input_dim=parameters['ParEmbed']['input_dim'],
             embedding_dims=parameters['ParEmbed']['embed_dim'],
+            keras_init=keras_init,
         )
 
         # # Interaction Embedding.
@@ -264,7 +271,8 @@ class ParticleTransformer(nn.Module):
         self.par_atte_blocks = nn.ModuleList([
             AttentionBlock(
                 embed_dim=atte_embed_dim,
-                **parameters['ParAtteBlock']
+                keras_init=keras_init,
+                **parameters['ParAtteBlock'],
             ) for _ in range(parameters['num_ParAtteBlock'])
         ])
 
@@ -272,7 +280,8 @@ class ParticleTransformer(nn.Module):
         self.class_atte_blocks = nn.ModuleList([
             AttentionBlock(
                 embed_dim=atte_embed_dim,
-                **parameters['ClassAtteBlock']
+                keras_init=keras_init,
+                **parameters['ClassAtteBlock'],
             ) for _ in range(parameters['num_ClassAtteBlock'])
         ])
 
@@ -280,7 +289,8 @@ class ParticleTransformer(nn.Module):
         self.class_token = nn.Parameter(torch.zeros(1, 1, atte_embed_dim), requires_grad=True)
         nn.init.trunc_normal_(self.class_token)
 
-        self.layerNorm = nn.LayerNorm(atte_embed_dim)
+        eps = KERAS_LN_EPS if keras_init else PYTORCH_LN_EPS
+        self.layerNorm = nn.LayerNorm(atte_embed_dim, eps=eps)
 
         self.fc = nn.Sequential(nn.Linear(atte_embed_dim, atte_embed_dim), nn.ReLU(), nn.Dropout(0.1))
 
@@ -331,31 +341,8 @@ class ParticleTransformer(nn.Module):
         return class_token
 
 
-class ParT_Baseline(ParticleTransformer):
-    def __init__(self, num_channels: int = 3):
-        hyperparameters = {
-            "ParEmbed": {
-                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
-                "embed_dim": [64, 512, 64]
-            },
-            "ParAtteBlock": {
-                "num_heads": 8,
-                "fc_dim": 512,
-                "dropout": 0.1
-            },
-            "ClassAtteBlock": {
-                "num_heads": 8,
-                "fc_dim": 512,
-                "dropout": 0.0
-            },
-            "num_ParAtteBlock": 6,
-            "num_ClassAtteBlock": 2
-        }
-        super().__init__(score_dim=1, parameters=hyperparameters)
-
-
 class ParT_Light(ParticleTransformer):
-    def __init__(self, num_channels: int = 3):
+    def __init__(self, num_channels: int = 3, keras_init: bool = False):
         hyperparameters = {
             "ParEmbed": {
                 "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
@@ -374,4 +361,4 @@ class ParT_Light(ParticleTransformer):
             "num_ParAtteBlock": 3,
             "num_ClassAtteBlock": 1
         }
-        super().__init__(score_dim=1, parameters=hyperparameters)
+        super().__init__(score_dim=1, parameters=hyperparameters, keras_init=keras_init)
