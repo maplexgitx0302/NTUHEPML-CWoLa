@@ -48,17 +48,8 @@ This project applies deep learning to distinguish between VBF and GGF Higgs prod
 
 - `ParT_Baseline`: A transformer-based architecture based on [*Particle Transformer for Jet Tagging*](https://arxiv.org/abs/2202.03772). This model captures particle-level features using attention mechanisms tailored for jet tagging tasks.
 
-- `ParT_*`: A family of lighter variants derived from `ParT_Baseline`, offering faster training and inference with reduced computational cost.
+- `ParT_Light`: A family of lighter variants derived from `ParT_Baseline`, offering faster training and inference with reduced computational cost.
 
 ## Usage
 
-#### Data Preprocessing & Augmentation
-
-The data preprocessings can be implemented by the following steps:
-
-1. Check the supported methods:
-   - **data preprocessing:** Check the methods provided in the class `src.data_preprocess.MCSimData`
-   - **data augmentation:** Supported functions can be found in `src.data_augment`.
-2. Give abbreviations for the preprocessing/augmentation methods in the class `LitDataModule`.
-    `./notebooks/training.ipynb` &rarr; `LitDataModule` &rarr; `__init__`
-3. Determine which preprocessings/augmentations to be used through YAML files in `./config` with file named `exp_*.yml`.
+- The training and inference scripts is given in `scripts/`.

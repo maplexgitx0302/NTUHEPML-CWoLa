@@ -1,11 +1,9 @@
 # system files
 __pycache__/
+.vscode/
 
 # training files
 data/
 output/
 notebooks/*.py
 npy_dataset/
-
-# private files
-_*

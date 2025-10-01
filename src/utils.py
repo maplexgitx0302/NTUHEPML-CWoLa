@@ -1,6 +1,6 @@
 import os
 
-import lightning
+from lightning.pytorch import LightningDataModule, LightningModule
 from lightning.pytorch.utilities.model_summary import ModelSummary
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -9,7 +9,7 @@ import seaborn as sns
 sns.set_theme()
 
 
-def count_model_parameters(lit_model: lightning.LightningModule, output_dir: str):
+def count_model_parameters(lit_model: LightningModule, output_dir: str):
     """Count the number of parameters in the model and save the summary."""
 
     with open(os.path.join(output_dir, 'num_params.txt'), 'w') as file:
@@ -20,7 +20,7 @@ def count_model_parameters(lit_model: lightning.LightningModule, output_dir: str
             print(f"\n{'='*100}\n", file=file)
 
 
-def count_number_of_data(lit_datamodule: lightning.LightningDataModule, output_dir: str):
+def count_number_of_data(lit_datamodule: LightningDataModule, output_dir: str):
     """Count the number of data samples in the datamodule and save the counts."""
 
     with open(os.path.join(output_dir, 'num_data.txt'), 'w') as file:
