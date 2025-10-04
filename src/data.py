@@ -168,11 +168,11 @@ class MCSimData:
                 images.append(array_to_image(array))
         else:
             decay_image = array_to_image(particle_flow[:, self.slices[-1], :])
+            decay_mask = decay_image > 0.0
             for i, channel in enumerate(self.detector_channels):
                 array = particle_flow[:, self.slices[i], :]  # (N, M, 3)
                 image = array_to_image(array)
-                if ('diphoton' in self.path and channel == 'TOWER') or ('zz4l' in self.path and channel == 'TRACK'):
-                    image = image - decay_image
+                image = np.where(decay_mask, 0.0, image)
                 images.append(image)
         images = np.stack(images, axis=1)  # (N, C, H, W)
 

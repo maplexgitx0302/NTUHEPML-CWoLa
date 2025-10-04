@@ -15,11 +15,15 @@ from torchmetrics.classification import BinaryAccuracy, BinaryAUROC
 class LitDataModule(lightning.LightningDataModule):
     def __init__(self, batch_size: int, data_mode: str, data_format: str, data_info: dict,
                  include_decay: bool, luminosity: float = None, num_phi_augmentation: int = 0,
+                 num_train: int = 100000, num_valid: int = 25000, num_test: int = 25000,
                  **kwargs):
         super().__init__()
 
         self.save_hyperparameters()
         self.batch_size = batch_size
+        self.num_train = num_train
+        self.num_valid = num_valid
+        self.num_test = num_test
 
         # Monte Carlo simulation data
         sig_data = MCSimData(ROOT / data_info['signal']['path'])
@@ -32,6 +36,9 @@ class LitDataModule(lightning.LightningDataModule):
             train_sig, train_bkg, valid_sig, valid_bkg, test_sig, test_bkg = self.split_by_supervised(sig_data, bkg_data)
         else:
             raise ValueError(f"Unsupported data mode: {data_mode}. Supported data modes are 'jet_flavor' and 'supervised'.")
+        print(f"[Data-Log] Training data: {len(train_sig)} signal events and {len(train_bkg)} background events.")
+        print(f"[Data-Log] Validation data: {len(valid_sig)} signal events and {len(valid_bkg)} background events.")
+        print(f"[Data-Log] Testing data: {len(test_sig)} signal events and {len(test_bkg)} background events.")
 
         # Data augmentation by random phi rotation
         if num_phi_augmentation > 0:
@@ -72,7 +79,7 @@ class LitDataModule(lightning.LightningDataModule):
     def split_by_supervised(self, sig_data: MCSimData, bkg_data: MCSimData):
         """Split data for supervised training."""
 
-        NUM_TRAIN, NUM_VALID, NUM_TEST = 100000, 25000, 25000
+        NUM_TRAIN, NUM_VALID, NUM_TEST = self.num_train, self.num_valid, self.num_test
 
         perm_sig = np.random.permutation(len(sig_data.particle_flow))
         perm_bkg = np.random.permutation(len(bkg_data.particle_flow))

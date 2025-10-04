@@ -7,4 +7,4 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate cwola
 
 # Run the training script
-python ./training.py --keras_init
+python ./training.py --num_phi_augmentation 5
