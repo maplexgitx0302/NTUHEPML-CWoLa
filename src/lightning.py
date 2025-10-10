@@ -46,20 +46,21 @@ class LitDataModule(lightning.LightningDataModule):
             train_bkg = self.augment_phi_per_event(train_bkg, num_phi_augmentation)
 
         # Transform to desired data format
+        GRID_SIZE = 40
         if data_format == 'image':
-            train_sig = sig_data.to_image(train_sig, include_decay)
-            train_bkg = bkg_data.to_image(train_bkg, include_decay)
-            valid_sig = sig_data.to_image(valid_sig, include_decay)
-            valid_bkg = bkg_data.to_image(valid_bkg, include_decay)
-            test_sig = sig_data.to_image(test_sig, include_decay)
-            test_bkg = bkg_data.to_image(test_bkg, include_decay)
+            train_sig = sig_data.to_image(train_sig, include_decay, grid_size=GRID_SIZE)
+            train_bkg = bkg_data.to_image(train_bkg, include_decay, grid_size=GRID_SIZE)
+            valid_sig = sig_data.to_image(valid_sig, include_decay, grid_size=GRID_SIZE)
+            valid_bkg = bkg_data.to_image(valid_bkg, include_decay, grid_size=GRID_SIZE)
+            test_sig = sig_data.to_image(test_sig, include_decay, grid_size=GRID_SIZE)
+            test_bkg = bkg_data.to_image(test_bkg, include_decay, grid_size=GRID_SIZE)
         elif data_format == 'sequence':
-            train_sig = sig_data.to_sequence(train_sig, include_decay)
-            train_bkg = bkg_data.to_sequence(train_bkg, include_decay)
-            valid_sig = sig_data.to_sequence(valid_sig, include_decay)
-            valid_bkg = bkg_data.to_sequence(valid_bkg, include_decay)
-            test_sig = sig_data.to_sequence(test_sig, include_decay)
-            test_bkg = bkg_data.to_sequence(test_bkg, include_decay)
+            train_sig = sig_data.to_sequence(train_sig, include_decay, eps=1 / GRID_SIZE)
+            train_bkg = bkg_data.to_sequence(train_bkg, include_decay, eps=1 / GRID_SIZE)
+            valid_sig = sig_data.to_sequence(valid_sig, include_decay, eps=1 / GRID_SIZE)
+            valid_bkg = bkg_data.to_sequence(valid_bkg, include_decay, eps=1 / GRID_SIZE)
+            test_sig = sig_data.to_sequence(test_sig, include_decay, eps=1 / GRID_SIZE)
+            test_bkg = bkg_data.to_sequence(test_bkg, include_decay, eps=1 / GRID_SIZE)
 
         # For tracking number of data samples
         self.train_sig, self.train_bkg = train_sig, train_bkg
@@ -183,9 +184,10 @@ class LitDataModule(lightning.LightningDataModule):
 
 
 class BinaryLitModel(lightning.LightningModule):
-    def __init__(self, model: nn.Module, lr: float, pos_weight: torch.Tensor = None, optimizer_settings: dict = None):
+    def __init__(self, model: nn.Module, lr: float, pos_weight: torch.Tensor = None, optimizer_settings: dict = None, save_model_in_hparams: bool = True):
         super().__init__()
-        self.save_hyperparameters()
+        ignore = None if save_model_in_hparams else ["model"]
+        self.save_hyperparameters(ignore=ignore)
 
         self.model = model
         self.lr = lr
@@ -255,3 +257,20 @@ class BinaryLitModel(lightning.LightningModule):
 
     def on_test_epoch_end(self):
         self._compute_and_log_split("test", prog_bar=False)
+
+
+class BinaryLitWithModelCfg(BinaryLitModel):
+    def __init__(self, model_cls: nn.Module, model_cfg: dict, lr: float, pos_weight: torch.Tensor = None, optimizer_settings: dict = None):
+        super().__init__(
+            model=None,
+            lr=lr,
+            pos_weight=pos_weight,
+            optimizer_settings=optimizer_settings,
+            save_model_in_hparams=False,
+        )
+
+        # Persist only lightweight stuff needed to rebuild
+        self.save_hyperparameters({"model_cls": model_cls.__name__, "model_cfg": model_cfg})
+
+        # Build the actual model now
+        self.model = model_cls(**model_cfg)

@@ -344,21 +344,10 @@ class ParticleTransformer(nn.Module):
 class ParT_Light(ParticleTransformer):
     def __init__(self, num_channels: int = 3, keras_init: bool = False):
         hyperparameters = {
-            "ParEmbed": {
-                "input_dim": 3 + num_channels,  # (pt, eta, phi) + one-hot_encoding
-                "embed_dim": [64, 256, 64]
-            },
-            "ParAtteBlock": {
-                "num_heads": 4,
-                "fc_dim": 256,
-                "dropout": 0.1
-            },
-            "ClassAtteBlock": {
-                "num_heads": 4,
-                "fc_dim": 256,
-                "dropout": 0.0
-            },
-            "num_ParAtteBlock": 3,
+            "ParEmbed": {"input_dim": 3 + num_channels, "embed_dim": [16, 64, 16]},
+            "ParAtteBlock": {"num_heads": 4, "fc_dim": 64,"dropout": 0.1},
+            "ClassAtteBlock": {"num_heads": 4,"fc_dim": 64,"dropout": 0.0},
+            "num_ParAtteBlock": 1,
             "num_ClassAtteBlock": 1
         }
         super().__init__(score_dim=1, parameters=hyperparameters, keras_init=keras_init)

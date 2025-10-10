@@ -7,11 +7,12 @@ import h5py
 import numpy as np
 import torch
 
+from .common import ROOT
+
 
 class MCSimData:
-    def __init__(self, path: str | Path, luminosity: float = 1.0):
+    def __init__(self, path: str):
         self.path = str(path)
-        self.luminosity = luminosity
 
         # -------- Channels --------
         self.detector_channels = ['TOWER', 'TRACK']
@@ -135,7 +136,7 @@ class MCSimData:
 
         return particle_flow
 
-    def to_image(self, particle_flow: np.ndarray, include_decay: bool, grid_size: int = 40, eps: float = 1e-8) -> torch.Tensor:
+    def to_image(self, particle_flow: np.ndarray, include_decay: bool, norm: bool = True, grid_size: int = 40, eps: float = 1e-8) -> torch.Tensor:
         """Convert the particle flow data to images (N, C, H, W)."""
 
         particle_flow = np.where(np.isnan(particle_flow), 0.0, particle_flow)  # (N, ΣM, 3)
@@ -177,13 +178,14 @@ class MCSimData:
         images = np.stack(images, axis=1)  # (N, C, H, W)
 
         # --- pt normalisation per (N, C) across H*W ---
-        N, C, H, W = images.shape
-        flat = images.reshape(N, C, -1)
-        mean = flat.mean(axis=-1, keepdims=True)
-        std = flat.std(axis=-1, keepdims=True)
-        std = np.clip(std, a_min=eps, a_max=None)
-        images = (flat - mean) / std
-        images = images.reshape(N, C, H, W)
+        if norm:
+            N, C, H, W = images.shape
+            flat = images.reshape(N, C, -1)
+            mean = flat.mean(axis=-1, keepdims=True)
+            std = flat.std(axis=-1, keepdims=True)
+            std = np.clip(std, a_min=eps, a_max=None)
+            images = (flat - mean) / std
+            images = images.reshape(N, C, H, W)
 
         return torch.from_numpy(images).float()
 
@@ -206,15 +208,15 @@ class MCSimData:
                 detector_eta = particle_flow[:, detector_slice, 1]  # (N, M_det)
                 detector_phi = particle_flow[:, detector_slice, 2]  # (N, M_det)
 
-                # broadcast (N, M_det, 1) vs (N, 1, M_dec) -> (N, M_det, M_dec)
-                eta_diff2 = (detector_eta[:, :, None] - decay_eta[:, None, :]) ** 2
-                phi_diff2 = (detector_phi[:, :, None] - decay_phi[:, None, :]) ** 2
-                dist2 = eta_diff2 + phi_diff2
+                # roadcast (N, M_det, 1) vs (N, 1, M_dec) -> (N, M_det, M_dec)
+                eta_diff2 = (detector_eta[:, :, None] - decay_eta[:, None, :]) ** 2  # (N, M_det, M_dec)
+                phi_diff2 = (detector_phi[:, :, None] - decay_phi[:, None, :]) ** 2  # (N, M_det, M_dec)
 
-                if eps == 0.0:
-                    matched = (dist2 == 0.0).any(axis=-1)  # (N, M_det)
-                else:
-                    matched = (dist2 <= (eps * eps)).any(axis=-1)
+                # Set the threshold inside the image grid (eps = 1 / grid_size)
+                matched = (((phi_diff2 / np.pi ** 2) < (eps ** 2)) & ((eta_diff2 / 5 ** 2) < (eps ** 2))).any(axis=-1)  # (N, M_det)
+                matched_mean = matched.sum(axis=-1).mean()
+                matched_std = matched.sum(axis=-1).std()
+                print(f"[Sequence] {matched_mean:.1f} +- {matched_std:.1f} detector hits matched to decay objects over {len(matched)} events (eps={eps})")
 
                 # Set matched detector hits to NaN across [pt, eta, phi]
                 detector_view = particle_flow[:, detector_slice, :]

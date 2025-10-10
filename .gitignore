@@ -5,5 +5,6 @@ __pycache__/
 # training files
 data/
 output/
+figures/
 notebooks/*.py
 npy_dataset/
