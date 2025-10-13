@@ -10,14 +10,15 @@ conda activate cwola
 
 ##################################################
 # Run the training script
-# python ./training.py
-# python ./training.py --num_phi_augmentation 10
+# python ./training.py --channel diphoton
+# python ./training.py --channel diphoton --num_phi_augmentation 5
+# python ./training.py --channel diphoton --num_phi_augmentation 10
 ##################################################
 
 ##################################################
 # Run the inference script
 # python ./inference.py
-################################################
+##################################################
 
 ##################################################
 # python ./part_tuning.py

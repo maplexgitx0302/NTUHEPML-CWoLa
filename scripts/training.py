@@ -123,10 +123,12 @@ def training(
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Run experiment with config and options.")
+    parser.add_argument('--channel', type=str, required=True, choices=['diphoton', 'zz4l'], help="Decay channel to use.")
     parser.add_argument('--keras_init', action='store_true', help="Use Keras-like initialization.")
     parser.add_argument('--num_phi_augmentation', type=int, default=0, help="Number of phi augmentations.")
     parser.add_argument('--datetime', type=str, default=None, help="Datetime string for naming.")
     args = parser.parse_args()
+    CHANNEL = args.channel
     KERAS_INIT = args.keras_init
     NUM_PHI_AUGMENTATION = args.num_phi_augmentation
     DATETIME = time.strftime("%Y%m%d_%H%M%S", time.localtime()) if args.datetime is None else args.datetime
@@ -135,7 +137,7 @@ if __name__ == '__main__':
     rnd_seeds = [123 + 100 * i for i in range(10)]
     for rnd_seed, data_mode, include_decay in product(rnd_seeds, ['jet_flavor'], [True, False]):
 
-        with open(ROOT / 'config' / 'data_diphoton.yml', 'r') as f:
+        with open(ROOT / 'config' / f"data_{CHANNEL}.yml", 'r') as f:
             data_info = yaml.safe_load(f)
 
         for data_format, model_cls, lr in [
