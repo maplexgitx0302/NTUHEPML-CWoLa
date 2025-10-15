@@ -124,18 +124,20 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Run experiment with config and options.")
     parser.add_argument('--channel', type=str, required=True, choices=['diphoton', 'zz4l'], help="Decay channel to use.")
+    parser.add_argument('--data_mode', type=str, required=True, choices=['jet_flavor', 'supervised'], help="Data mode to use.")
     parser.add_argument('--keras_init', action='store_true', help="Use Keras-like initialization.")
     parser.add_argument('--num_phi_augmentation', type=int, default=0, help="Number of phi augmentations.")
     parser.add_argument('--datetime', type=str, default=None, help="Datetime string for naming.")
     args = parser.parse_args()
     CHANNEL = args.channel
+    DATA_MODE = args.data_mode
     KERAS_INIT = args.keras_init
     NUM_PHI_AUGMENTATION = args.num_phi_augmentation
     DATETIME = time.strftime("%Y%m%d_%H%M%S", time.localtime()) if args.datetime is None else args.datetime
 
     # Random seeds and configurations
     rnd_seeds = [123 + 100 * i for i in range(10)]
-    for rnd_seed, data_mode, include_decay in product(rnd_seeds, ['jet_flavor'], [True, False]):
+    for rnd_seed, include_decay in product(rnd_seeds, [True, False]):
 
         with open(ROOT / 'config' / f"data_{CHANNEL}.yml", 'r') as f:
             data_info = yaml.safe_load(f)
@@ -147,14 +149,14 @@ if __name__ == '__main__':
 
             for luminosity in [100, 300, 900, 1800, 3000]:
                 training(
-                    data_mode=data_mode,
+                    data_mode=DATA_MODE,
                     data_format=data_format,
                     data_info=data_info,
                     include_decay=include_decay,
                     model_cls=model_cls,
                     lr=lr,
                     keras_init=KERAS_INIT,
-                    tags=[data_mode],
+                    tags=[DATA_MODE],
                     rnd_seed=rnd_seed,
                     date_time=DATETIME,
                     luminosity=luminosity,

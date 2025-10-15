@@ -10,9 +10,10 @@ conda activate cwola
 
 ##################################################
 # Run the training script
-# python ./training.py --channel diphoton
-# python ./training.py --channel diphoton --num_phi_augmentation 5
-# python ./training.py --channel diphoton --num_phi_augmentation 10
+python ./training.py --channel zz4l --data_mode supervised
+# python ./training.py --channel diphoton --data_mode jet_flavor
+# python ./training.py --channel diphoton --data_mode jet_flavor --num_phi_augmentation 5
+# python ./training.py --channel diphoton --data_mode jet_flavor --num_phi_augmentation 10
 ##################################################
 
 ##################################################
