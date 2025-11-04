@@ -208,10 +208,8 @@ class MCSimData:
             channel_slices = self.slices[:len(self.detector_channels)]
 
             # --- Remove detector hits that match decay objects (like _exclude_decay_information) ---
-            decay_eta, decay_phi = np.array([], dtype=particle_flow.dtype), np.array([], dtype=particle_flow.dtype)
-            for decay_slice in self.slices[len(self.detector_channels):]:
-                decay_eta = np.concatenate([decay_eta, particle_flow[:, decay_slice, 1]], axis=-1)  # (N, M_dec)
-                decay_phi = np.concatenate([decay_phi, particle_flow[:, decay_slice, 2]], axis=-1)  # (N, M_dec)
+            decay_eta = np.concatenate([particle_flow[:, s, 1] for s in self.slices[len(self.detector_channels):]], axis=-1)
+            decay_phi = np.concatenate([particle_flow[:, s, 2] for s in self.slices[len(self.detector_channels):]], axis=-1)
 
             # NaNs compare False in <= / ==, so NaN decay entries are ignored automatically
             for detector_slice in channel_slices:

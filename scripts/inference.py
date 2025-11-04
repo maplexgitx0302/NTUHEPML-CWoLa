@@ -1,3 +1,4 @@
+import argparse
 from itertools import product
 import os
 from pathlib import Path
@@ -14,24 +15,24 @@ sys.path.append(str(ROOT))
 from src.lightning import LitDataModule, BinaryLitModel
 
 
-def inference(data_format: str, model: str, rnd_seed: int, date_time: str, **kwargs):
+def inference(data_format: str, model: str, rnd_seed: int, date_time: str, luminosity: float, channel: str):
     """Inference with a trained model with the given configuration."""
 
     lightning.seed_everything(rnd_seed)
 
-    with open(ROOT / 'config' / f"data_zz4l.yml", 'r') as f:
+    with open(ROOT / 'config' / f"data_{channel}.yml", 'r') as f:
         data_info = yaml.safe_load(f)
 
     # Output and log directories
     save_dir = ROOT / 'output' / 'ex-diphoton' / 'jet_flavor'
-    name = f"{model}-{date_time}-L{kwargs['luminosity']}"
+    name = f"{model}-{date_time}-L{luminosity}"
     version = f"rnd_seed-{rnd_seed}"
     ckpt_dir = save_dir / name / version / 'checkpoints'
     ckpt_path = ckpt_dir / os.listdir(ckpt_dir)[0]
 
     # Lightning data setup
     lit_data_module = LitDataModule(
-        batch_size=128,
+        batch_size=64,
         data_mode='jet_flavor',
         data_format=data_format,
         data_info=data_info,
@@ -39,7 +40,7 @@ def inference(data_format: str, model: str, rnd_seed: int, date_time: str, **kwa
         num_train=10000,
         num_valid=10000,
         num_test=10000,
-        **kwargs
+        luminosity=luminosity,
     )
 
     # Lightning model setup
@@ -55,6 +56,11 @@ def inference(data_format: str, model: str, rnd_seed: int, date_time: str, **kwa
 
 
 if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description="Run experiment with config and options.")
+    parser.add_argument('--channel', type=str, required=True, choices=['diphoton', 'zz4l', 'za2l'], help="Decay channel to be inferenced.")
+    args = parser.parse_args()
+    CHANNEL = args.channel
 
     inference_info_list = [
         # Removing decay product only
@@ -89,6 +95,7 @@ if __name__ == '__main__':
                 rnd_seed=rnd_seed,
                 date_time=date_time,
                 luminosity=luminosity,
+                channel=CHANNEL,
             )
 
             df = pd.concat([df, pd.DataFrame({
@@ -99,5 +106,6 @@ if __name__ == '__main__':
                 'test_auc': metrics[0]['test_auc'],
             }, index=[0])], ignore_index=True)
 
-        os.makedirs(ROOT / 'output' / 'inference', exist_ok=True)
-        df.to_csv(ROOT / 'output' / 'inference' / f'{model}_{date_time}.csv', index=False)
+        output_dir = ROOT / 'output' / 'inference' / CHANNEL
+        os.makedirs(output_dir, exist_ok=True)
+        df.to_csv(output_dir / f'{model}_{date_time}.csv', index=False)
