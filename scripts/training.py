@@ -123,7 +123,7 @@ def training(
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Run experiment with config and options.")
-    parser.add_argument('--channel', type=str, required=True, choices=['diphoton', 'zz4l'], help="Decay channel to use.")
+    parser.add_argument('--channel', type=str, required=True, choices=['diphoton', 'zz4l', 'za2l'], help="Decay channel to use.")
     parser.add_argument('--data_mode', type=str, required=True, choices=['jet_flavor', 'supervised'], help="Data mode to use.")
     parser.add_argument('--keras_init', action='store_true', help="Use Keras-like initialization.")
     parser.add_argument('--num_phi_augmentation', type=int, default=0, help="Number of phi augmentations.")

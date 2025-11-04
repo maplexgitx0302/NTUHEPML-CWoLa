@@ -1,0 +1,13 @@
+decay_channel: 'za2l'
+
+branching_ratio: 0.000103  # branching ratio for H -> Za -> 2l + a
+
+signal:
+  path: 'data/VBF_za2l.h5'
+  cut_info: 'data/selection_results_VBF_Za_2l_quark_jet.npy'
+  cross_section: 4278.0    # 4.278 * 1000, precomputed
+
+background:
+  path: 'data/GGF_za2l.h5'
+  cut_info: 'data/selection_results_GGF_Za_2l_quark_jet.npy'
+  cross_section: 54670.0   # 54.67 * 1000, precomputed

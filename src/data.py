@@ -18,14 +18,18 @@ class MCSimData:
         self.detector_channels = ['TOWER', 'TRACK']
         self.slices = [slice(0, 250), slice(250, 400)]
         if 'diphoton' in self.path:
-            self.decay_channel = 'PHOTON'
+            self.decay_channel = ['PHOTON']
             self.slices.append(slice(400, 402))
         elif 'zz4l' in self.path:
-            self.decay_channel = 'LEPTON'
+            self.decay_channel = ['LEPTON']
             self.slices.append(slice(400, 404))
+        elif 'za2l' in self.path:
+            self.decay_channel = ['LEPTON', 'PHOTON']
+            self.slices.append(slice(400, 402))
+            self.slices.append(slice(402, 403))
         else:
-            raise ValueError(f"Unsupported dataset: {self.path}. Supported datasets are 'diphoton' and 'zz4l'.")
-        self.channels = self.detector_channels + ([self.decay_channel] if self.decay_channel else [])
+            raise ValueError(f"Unsupported dataset: {self.path}. Supported datasets are 'diphoton', 'zz4l', and 'za2l'.")
+        self.channels = self.detector_channels + self.decay_channel
 
         with h5py.File(str(path), 'r') as hdf5_file:
             # -------- Jet flavor --------
@@ -168,7 +172,12 @@ class MCSimData:
                 array = particle_flow[:, _slice, :]  # (N, M, 3)
                 images.append(array_to_image(array))
         else:
-            decay_image = array_to_image(particle_flow[:, self.slices[-1], :])
+            if 'diphoton' in self.path or 'zz4l' in self.path:
+                decay_image = array_to_image(particle_flow[:, self.slices[-1], :])
+            elif 'za2l' in self.path:
+                decay_image_lepton = array_to_image(particle_flow[:, self.slices[-2], :])
+                decay_image_photon = array_to_image(particle_flow[:, self.slices[-1], :])
+                decay_image = decay_image_lepton + decay_image_photon
             decay_mask = decay_image > 0.0
             for i, channel in enumerate(self.detector_channels):
                 array = particle_flow[:, self.slices[i], :]  # (N, M, 3)
@@ -196,12 +205,13 @@ class MCSimData:
         if include_decay:
             channel_slices = self.slices
         else:
-            channel_slices = self.slices[:-1]
+            channel_slices = self.slices[:len(self.detector_channels)]
 
             # --- Remove detector hits that match decay objects (like _exclude_decay_information) ---
-            decay_slice = self.slices[-1]
-            decay_eta = particle_flow[:, decay_slice, 1]  # (N, M_dec)
-            decay_phi = particle_flow[:, decay_slice, 2]  # (N, M_dec)
+            decay_eta, decay_phi = np.array([], dtype=particle_flow.dtype), np.array([], dtype=particle_flow.dtype)
+            for decay_slice in self.slices[len(self.detector_channels):]:
+                decay_eta = np.concatenate([decay_eta, particle_flow[:, decay_slice, 1]], axis=-1)  # (N, M_dec)
+                decay_phi = np.concatenate([decay_phi, particle_flow[:, decay_slice, 2]], axis=-1)  # (N, M_dec)
 
             # NaNs compare False in <= / ==, so NaN decay entries are ignored automatically
             for detector_slice in channel_slices:
