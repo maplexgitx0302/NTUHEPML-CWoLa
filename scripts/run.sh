@@ -18,7 +18,8 @@ conda activate cwola
 
 ##################################################
 # Run the inference script
-python ./inference.py --channel za2l
+# python ./inference.py --channel zz4l
+# python ./inference.py --channel za2l
 ##################################################
 
 ##################################################

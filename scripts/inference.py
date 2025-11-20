@@ -32,7 +32,7 @@ def inference(data_format: str, model: str, rnd_seed: int, date_time: str, lumin
 
     # Lightning data setup
     lit_data_module = LitDataModule(
-        batch_size=64,
+        batch_size=512,
         data_mode='jet_flavor',
         data_format=data_format,
         data_info=data_info,
@@ -63,13 +63,13 @@ if __name__ == '__main__':
     CHANNEL = args.channel
 
     inference_info_list = [
-        # Removing decay product only
-        ('image', 'CNN_EventCNN', '20250930_105915', '+0'),
-        ('image', 'CNN_EventCNN', '20250923_232355', '+5'),
-        ('image', 'CNN_EventCNN', '20250924_111848', '+10'),
-        ('sequence', 'ParT_Light', '20250930_105915', '+0'),
-        ('sequence', 'ParT_Light', '20250923_232355', '+5'),
-        ('sequence', 'ParT_Light', '20250924_111848', '+10'),
+        # # Removing decay product only
+        # ('image', 'CNN_EventCNN', '20250930_105915', '+0'),
+        # ('image', 'CNN_EventCNN', '20250923_232355', '+5'),
+        # ('image', 'CNN_EventCNN', '20250924_111848', '+10'),
+        # ('sequence', 'ParT_Light', '20250930_105915', '+0'),
+        # ('sequence', 'ParT_Light', '20250923_232355', '+5'),
+        # ('sequence', 'ParT_Light', '20250924_111848', '+10'),
 
         # Removing also neighbors near decay product
         ('image', 'CNN_EventCNN', '20251005_154731', '+0'),
