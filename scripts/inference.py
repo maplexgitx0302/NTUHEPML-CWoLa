@@ -63,15 +63,7 @@ if __name__ == '__main__':
     CHANNEL = args.channel
 
     inference_info_list = [
-        # # Removing decay product only
-        # ('image', 'CNN_EventCNN', '20250930_105915', '+0'),
-        # ('image', 'CNN_EventCNN', '20250923_232355', '+5'),
-        # ('image', 'CNN_EventCNN', '20250924_111848', '+10'),
-        # ('sequence', 'ParT_Light', '20250930_105915', '+0'),
-        # ('sequence', 'ParT_Light', '20250923_232355', '+5'),
-        # ('sequence', 'ParT_Light', '20250924_111848', '+10'),
-
-        # Removing also neighbors near decay product
+        # Modify the correponding date time of training results.
         ('image', 'CNN_EventCNN', '20251005_154731', '+0'),
         ('image', 'CNN_EventCNN', '20251006_114628', '+5'),
         ('image', 'CNN_EventCNN', '20251007_015709', '+10'),

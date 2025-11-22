@@ -20,10 +20,10 @@ class MCSimData:
         if 'diphoton' in self.path:
             self.decay_channel = ['PHOTON']
             self.slices.append(slice(400, 402))
-        elif 'zz4l' in self.path:
+        elif 'zz4l' in self.path or 'ZZ4l' in self.path:
             self.decay_channel = ['LEPTON']
             self.slices.append(slice(400, 404))
-        elif 'za2l' in self.path:
+        elif 'za2l' in self.path or 'Za2l' in self.path:
             self.decay_channel = ['LEPTON', 'PHOTON']
             self.slices.append(slice(400, 402))
             self.slices.append(slice(402, 403))
