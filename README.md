@@ -1,6 +1,6 @@
 # Higgs Production Classifier Using Weak Supervision
 
-This repository accompanies the paper **Higgs Production Classifier Using Weak Supervision**. It implements deep-learning methods to distinguish **Vector Boson Fusion (VBF)** from **Gluon–Gluon Fusion (GGF)** Higgs production modes using the **Classification Without Labels (CWoLa)** framework.
+This repository accompanies the paper [*Higgs Production Classifier Using Weak Supervision*](https://arxiv.org/abs/2511.18726). It implements deep-learning methods to distinguish **Vector Boson Fusion (VBF)** from **Gluon–Gluon Fusion (GGF)** Higgs production modes using the **Classification Without Labels (CWoLa)** framework.
 
 The project extends the ideas in [*Classification Without Labels: Learning from Mixed Samples in High Energy Physics*](https://arxiv.org/abs/1708.02949) and adapts full-event and particle-level architectures for weakly supervised learning directly from mixed samples.
 
